@@ -1,0 +1,20 @@
+{
+  "name": "vimeoplayer",
+  "version": "0.0.1",
+  "description": "\"Vimeo Player Exercise\"",
+  "main": "app.js",
+  "scripts": {
+    "start": "webpack --config ./webpack.config.js --watch --progress --colors",
+    "build": "webpack --config ./webpack.config.js --progress --profile --colors"
+  },
+  "keywords": [
+    "Vimeo",
+    "Player",
+    "Exercise"
+  ],
+  "author": "Jinyue Xia",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^1.13.0"
+  }
+}
