@@ -1,63 +1,44 @@
-var eventManager = require('../EventManager/PubSub.js');
-var playButtonStore = require('../Stores/PlayButtonStore');
+var eventManager = require('../eventManager/PubSub');
+var playButtonElement = require('../elements/PlayButtonElement');
+var createCustomEvent = require('../utility/CreateCustomEvent');
+var playerEvents = require('../eventManager/PlayerEvents');
 
-var createPlayButton = function() {
-  var playButton = document.createElement('div');
-  playButton.className = 'play-icon';
-  var playSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  playSVG.setAttribute('viewBox', '0 0 20 20');
-  playSVG.setAttribute('preserveAspectRatio', 'xMidYMid');
-  var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-  polygon.setAttribute('points', '1,0 20,10 1,20');
-  playSVG.appendChild(polygon);
-  playButton.appendChild(playSVG);
+module.exports = (function() {
+  var state = {
+    'playing': false
+  };
+  var playbutton;
 
-  return playButton;
-};
+  var init = function() {
+    playbutton = playButtonElement.createPlayButton();
+    var playIcon = playbutton.children[0];
+    var pauseIcon = playbutton.children[1];
+    playbutton.addEventListener('click', function() {
+      buttonClickListener(playIcon, pauseIcon);
+    }, false);
 
-var createPauseButton = function() {
-  var pauseButton = document.createElement('div');
-  pauseButton.className = 'pause-icon';
-  var pauseSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  pauseSVG.setAttribute('viewBox', '0 0 20 20');
-  pauseSVG.setAttribute('preserveAspectRatio', 'xMidYMid');
-  var leftRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-  leftRect.setAttribute('width', '6');
-  leftRect.setAttribute('height', '20');
-  leftRect.setAttribute('x', '0');
-  leftRect.setAttribute('y', '0');
-  pauseSVG.appendChild(leftRect);
-  var rightRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-  rightRect.setAttribute('width', '6');
-  rightRect.setAttribute('height', '20');
-  rightRect.setAttribute('x', '12');
-  rightRect.setAttribute('y', '0');
-  pauseSVG.appendChild(rightRect);
-  pauseButton.appendChild(pauseSVG);
+    return playbutton;
+  };
 
-  return pauseButton;
-};
+  var buttonClickListener = function(playIcon, pauseIcon) {
+    if (state.playing) {
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+      var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
+      playbutton.dispatchEvent(vimeoPauseEvent);
+      state.playing = false;
+    } else {
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+      var vimeoPlayEvent = createCustomEvent(playerEvents.play);
+      playbutton.dispatchEvent(vimeoPlayEvent);
+      state.playing = true;
+    }
+  };
 
-var playButtonClick = function(self) {
-  if (state.playing) {
-    state.playing = false;
-    playButtonActions.publishPause();
-  } else {
-    playButtonActions.publishPlay();
-    state.playing = true;
-  }
-};
+  return {
+    init: init,
+    playbutton: playbutton
+  };
 
-var playButton = function() {
-  var button = document.createElement('button');
-  button.className = 'play';
-  var playBtn = createPlayButton();
-  button.appendChild(playBtn);
-  var pauseBtn = createPauseButton();
-  button.appendChild(pauseBtn);
-  playButtonStore.init(button);
-
-  return button;
-};
-
-module.exports = playButton;
+})();

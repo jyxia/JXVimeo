@@ -37,12 +37,8 @@ video {
   padding: 10px;
   opacity: 1;
   z-index: 8;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: flex-end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
 }
 
 .controls .play {
@@ -81,13 +77,9 @@ video {
 }
 
 .controls .progress-wrapper {
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
   position: relative;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   height: 3.2em;
   padding: 1em;
   border-radius: 2px;
@@ -95,9 +87,7 @@ video {
 }
 
 .controls .progress-wrapper .progress {
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
   position: relative;
   border: .1em solid #666;
   cursor: pointer;
@@ -178,13 +168,9 @@ video {
 
 .controls .progress-wrapper .grabbable {
   cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: -webkit-grab;
   cursor: grab;
 }
 
 .controls .progress-wrapper .grabbable:active {
-  cursor: -webkit-grabbing;
   cursor: grabbing;
 }
-
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuLi9jc3Mvc3R5bGUuY3NzIiwic291cmNlUm9vdCI6IiJ9*/
