@@ -8,6 +8,7 @@ module.exports = (function() {
   var videoDuration = 0;
   var progressBar;
   var progressContainer;
+  var playerContainer;
 
   var init = function() {
     progressContainer = progressWrapper.progressWrapper();
@@ -36,12 +37,12 @@ module.exports = (function() {
 
   var _mouseleaveListener = function() {
     progressBarChildren.hoverTimebox.className = 'hover-timebox invisible';
-    utility.removeClass(progressBar, 'grabbable');
   };
 
   var _mousedownListener = function(event) {
     event.preventDefault();
-    utility.addClass(progressBar, 'grabbable');
+    playerContainer = progressContainer.parentNode.parentNode;
+    utility.addClass(playerContainer, 'grabbable');
     _dispatchSeek(event);
     // only add mousemove to document when mouse down to progressBar happened
     document.documentElement.addEventListener('mousemove', _mousedownmoveListener, false);
@@ -49,7 +50,7 @@ module.exports = (function() {
   };
 
   var _mouseupListener = function() {
-    utility.removeClass(progressBar, 'grabbable');
+    utility.removeClass(playerContainer, 'grabbable');
     progressBar.addEventListener('mousemove', _mousemoveListener, false);
     // when mouse is up remove mousemove event from documentElement
     document.documentElement.removeEventListener('mousemove', _mousedownmoveListener);
@@ -86,12 +87,7 @@ module.exports = (function() {
     } else if (e.client) {
       mPosx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     }
-    //get parent element position in document
-    // if (obj.offsetParent) {
-    //     do {
-    //       ePosx += obj.offsetLeft;
-    //     } while (obj = obj.offsetParent);
-    // }
+
     while (obj.offsetParent) {
       ePosx += obj.offsetLeft;
       obj = obj.offsetParent;

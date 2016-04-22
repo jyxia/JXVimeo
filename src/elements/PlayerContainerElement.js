@@ -19,7 +19,7 @@ module.exports = (function() {
     controls.appendChild(progress);
     container.appendChild(controls);
 
-    // register pubs/subs here. 
+    // register pubs/subs here.
     publishers.init(playBtn, progress, video);
     subscribers.init(playBtn, progressComponent, videoComponent);
 

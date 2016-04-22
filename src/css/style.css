@@ -24,12 +24,12 @@
   height: 100%;
 }
 
-video {
+.player-container video {
   width: 100%;
   height: 100%;
 }
 
-.controls {
+.player-container .controls {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -92,6 +92,10 @@ video {
   border: .1em solid #666;
   cursor: pointer;
   height: 100%;
+}
+
+.controls .progress-wrapper .progress:active {
+  cursor: grabbing;
 }
 
 .controls .progress-wrapper .progress .buffered, .played {
@@ -166,11 +170,11 @@ video {
   border-color: #fff transparent transparent transparent;
 }
 
-.controls .progress-wrapper .grabbable {
+.grabbable {
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
 }
 
-.controls .progress-wrapper .grabbable:active {
+.grabbable:active {
   cursor: grabbing;
 }

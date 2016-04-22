@@ -30,7 +30,7 @@ module.exports = {
     if (el.classList) {
       el.classList.add(className);
     } else if (!this.hasClass(el, className)) {
-      el.className += " " + className;
+      el.className += ' ' + className;
     }
   },
 
