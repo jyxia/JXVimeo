@@ -18,6 +18,8 @@
     "autoprefixer": "^6.3.6",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "jshint": "^2.9.2",
+    "jshint-loader": "^0.8.3",
     "postcss-loader": "^0.8.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"

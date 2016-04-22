@@ -1,4 +1,3 @@
-var eventManager = require('../eventManager/PubSub');
 var utility = require('../utility/Utility');
 var progressWrapper = require('../elements/PlayerProgressElement.js');
 var playerEvents = require('../eventManager/PlayerEvents');
@@ -18,39 +17,21 @@ module.exports = (function() {
     progressBarChildren.hoverTimebox = progressBar.children[2];
     progressBarChildren.timeBox = progressBar.children[3];
 
-    progressBar.addEventListener('mousemove', function(event) {
-      _mousemoveListener(event);
-    }, false);
-
-    progressBar.addEventListener('mouseleave', function() {
-      _mouseleaveListener();
-    }, false);
-
-    progressBar.addEventListener('click', function(event) {
-      _mouseClickListener(event);
-    }, false);
-
-    progressBar.addEventListener('mousedown', function(event) {
-      _mousedownListener(event);
-    }, false);
-
+    progressBar.addEventListener('mousemove', _mousemoveListener, false);
+    progressBar.addEventListener('mouseleave', _mouseleaveListener, false);
+    progressBar.addEventListener('mousedown', _mousedownListener, false);
+    document.documentElement.addEventListener('mouseup', _mouseupListener, false);
     return progressContainer;
   };
 
-  var _mouseClickListener = function(event) {
-    var hoverPosition = _getMousePosition(event, progressBar);
-    var data = { currentTime: videoDuration * hoverPosition };
-    var clickEvent = createCustomEvent(playerEvents.seek, data);
-    progressContainer.dispatchEvent(clickEvent);
-  };
-
   var _mousemoveListener = function(event) {
+    event.stopPropagation();
     var hoverPosition = _getMousePosition(event, progressBar);
     if (hoverPosition < 0 || hoverPosition > 1) return;
     var currentTime = videoDuration * hoverPosition;
     progressBarChildren.hoverTimebox.style.left = (hoverPosition * 100).toFixed(3) + '%';
-    progressBarChildren.hoverTimebox.className = 'hover-timebox';
     progressBarChildren.hoverTimebox.firstElementChild.innerHTML = utility.splitTime(currentTime);
+    progressBarChildren.hoverTimebox.className = 'hover-timebox';
   };
 
   var _mouseleaveListener = function() {
@@ -59,28 +40,64 @@ module.exports = (function() {
   };
 
   var _mousedownListener = function(event) {
+    event.preventDefault();
     utility.addClass(progressBar, 'grabbable');
+    _dispatchSeek(event);
+    // only add mousemove to document when mouse down to progressBar happened
+    document.documentElement.addEventListener('mousemove', _mousedownmoveListener, false);
+    progressBar.removeEventListener('mousemove', _mousemoveListener);
+  };
+
+  var _mouseupListener = function() {
+    utility.removeClass(progressBar, 'grabbable');
+    progressBar.addEventListener('mousemove', _mousemoveListener, false);
+    // when mouse is up remove mousemove event from documentElement
+    document.documentElement.removeEventListener('mousemove', _mousedownmoveListener);
+  };
+
+  var _mousedownmoveListener = function(event) {
+    var hoverPosition = _getMousePosition(event, progressBar);
+    if (hoverPosition < 0 || hoverPosition > 1) return;
+    var currentTime = videoDuration * hoverPosition;
+    progressBarChildren.hoverTimebox.style.left = (hoverPosition * 100).toFixed(3) + '%';
+    progressBarChildren.hoverTimebox.className = 'hover-timebox invisible';
+    progressBarChildren.hoverTimebox.firstElementChild.innerHTML = utility.splitTime(currentTime);
+    progressBarChildren.timeBox.style.left = (hoverPosition * 100).toFixed(3) + '%';
+    progressBarChildren.timeBox.firstElementChild.innerHTML = utility.splitTime(currentTime);
+    _dispatchSeek(event);
+  };
+
+  var _dispatchSeek = function(event) {
+    var hoverPosition = _getMousePosition(event, progressBar);
+    var data = { currentTime: videoDuration * hoverPosition };
+    var seekEvent = createCustomEvent(playerEvents.seek, data);
+    progressContainer.dispatchEvent(seekEvent);
   };
 
   var _getMousePosition = function(e, progressBar) {
-    var m_posx = 0;
-    var e_posx = 0;
+    var mPosx = 0;
+    var ePosx = 0;
     var obj = progressBar;
+
     // get mouse position on document crossbrowser
     if (!e) e = window.event;
     if (e.pageX) {
-        m_posx = e.pageX;
+      mPosx = e.pageX;
     } else if (e.client) {
-        m_posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      mPosx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     }
     //get parent element position in document
-    if (obj.offsetParent) {
-        do {
-          e_posx += obj.offsetLeft;
-        } while (obj = obj.offsetParent);
+    // if (obj.offsetParent) {
+    //     do {
+    //       ePosx += obj.offsetLeft;
+    //     } while (obj = obj.offsetParent);
+    // }
+    while (obj.offsetParent) {
+      ePosx += obj.offsetLeft;
+      obj = obj.offsetParent;
     }
 
-    var offset = m_posx - e_posx;
+    var offset = mPosx - ePosx;
     var hoverPosition = offset / progressBar.offsetWidth;
     return hoverPosition;
   };

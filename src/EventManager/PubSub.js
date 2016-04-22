@@ -13,7 +13,7 @@ module.exports = {
           this.events[eventName].splice(i, 1);
           break;
         }
-      };
+      }
     }
   },
 

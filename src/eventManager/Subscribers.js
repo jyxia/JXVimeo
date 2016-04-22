@@ -1,6 +1,5 @@
 var playerEvents = require('./PlayerEvents');
 var eventManager = require('./PubSub');
-var utility = require('../utility/Utility');
 
 module.exports = (function() {
   var registerSubscribers = function(playButton, progress, video) {

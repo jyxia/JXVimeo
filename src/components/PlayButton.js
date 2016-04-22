@@ -1,4 +1,3 @@
-var eventManager = require('../eventManager/PubSub');
 var playButtonElement = require('../elements/PlayButtonElement');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 var playerEvents = require('../eventManager/PlayerEvents');

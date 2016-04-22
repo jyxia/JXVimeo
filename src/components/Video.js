@@ -1,4 +1,3 @@
-var eventManager = require('../eventManager/PubSub');
 var videoElement = require('../elements/VideoElement');
 var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
@@ -14,15 +13,9 @@ module.exports = (function() {
   var init = function(videoLink) {
     playerContainer = videoElement.videoElement(videoLink);
     video.player = playerContainer.firstElementChild;
-    video.player.addEventListener('loadeddata', function() {
-      _loadeddataListener();
-    }, false);
-    video.player.addEventListener('timeupdate', function() {
-      _timeupdateListener();
-    }, false);
-    video.player.addEventListener('progress', function() {
-      _progressUpdateListener();
-    }, false);
+    video.player.addEventListener('loadeddata', _loadeddataListener, false);
+    video.player.addEventListener('timeupdate', _timeupdateListener, false);
+    video.player.addEventListener('progress', _progressUpdateListener, false);
 
     return playerContainer;
   };
@@ -63,10 +56,6 @@ module.exports = (function() {
       var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
       playerContainer.dispatchEvent(videoBufferEvent);
     }
-  };
-
-  var getCurrentTime = function() {
-    return video.currentTime;
   };
 
   var setCurrentTime = function(currentTime) {

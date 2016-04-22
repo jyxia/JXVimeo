@@ -12,6 +12,13 @@ module.exports = {
     filename: "[name].js",
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "jshint-loader"
+      }
+    ],
     loaders: [
       {
         test: /\.css$/,
@@ -23,5 +30,7 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('../css/style.css')
   ],
-  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
+  postcss: [
+    autoprefixer({ browsers: ['last 2 versions'] })
+  ]
 };
