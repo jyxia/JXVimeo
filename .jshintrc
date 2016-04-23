@@ -1,10 +1,11 @@
 {
-  "strict": "implied",
+  "strict": true,
   "camelcase": true,
   "eqeqeq": true,
   "unused": true,
   "undef": true,
   "indent": 2,
+  "quotmark": "single",
   "emitErrors": false,
   "failOnHint": false,
   "node": true,

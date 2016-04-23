@@ -1,3 +1,5 @@
+'use strict';
+
 var videoElement = require('../elements/VideoElement');
 var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
@@ -6,40 +8,42 @@ module.exports = (function() {
   var video = {
     duration: 0,
     currentTime: 0,
-    buffered: 0
+    buffered: 0,
+    playing: false
   };
-  var playerContainer;
+  var videoContainer;
 
   var init = function(videoLink) {
-    playerContainer = videoElement.videoElement(videoLink);
-    video.player = playerContainer.firstElementChild;
+    videoContainer = videoElement.videoElement(videoLink);
+    video.player = videoContainer.firstElementChild;
     video.player.addEventListener('loadeddata', _loadeddataListener, false);
     video.player.addEventListener('timeupdate', _timeupdateListener, false);
     video.player.addEventListener('progress', _progressUpdateListener, false);
-
-    return playerContainer;
+    video.player.addEventListener('playing', _playingListener, false);
+    video.player.addEventListener('pause', _pauseListener, false);
+    return videoContainer;
   };
 
   var _loadeddataListener = function() {
     video.duration = video.player.duration;
     var durationData = { duration: video.duration };
     var videoReadyEvent = createCustomEvent(playerEvents.videoReady, durationData);
-    playerContainer.dispatchEvent(videoReadyEvent);
+    videoContainer.dispatchEvent(videoReadyEvent);
 
     var bufferData = { buffered: video.player.buffered.end(0) / video.duration * 100 };
     var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-    playerContainer.dispatchEvent(videoBufferEvent);
+    videoContainer.dispatchEvent(videoBufferEvent);
   };
 
   var _timeupdateListener = function() {
     video.currentTime = video.player.currentTime;
     var tickData = { currentTime: video.currentTime };
     var videoTickEvent = createCustomEvent(playerEvents.tick, tickData);
-    playerContainer.dispatchEvent(videoTickEvent);
+    videoContainer.dispatchEvent(videoTickEvent);
 
     var playedProgressData = { progress: video.currentTime / video.duration * 100 };
     var videoBufferEvent = createCustomEvent(playerEvents.played, playedProgressData);
-    playerContainer.dispatchEvent(videoBufferEvent);
+    videoContainer.dispatchEvent(videoBufferEvent);
   };
 
   var _progressUpdateListener = function() {
@@ -54,13 +58,33 @@ module.exports = (function() {
     if (range < bf.start.length) {
       var bufferData = { buffered: bf.end(range) / video.duration * 100 };
       var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-      playerContainer.dispatchEvent(videoBufferEvent);
+      videoContainer.dispatchEvent(videoBufferEvent);
     }
+  };
+
+  var _playingListener = function() {
+    var videoPlayingEvent = createCustomEvent(playerEvents.playing);
+    videoContainer.dispatchEvent(videoPlayingEvent);
+  };
+
+  var _pauseListener = function() {
+    var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
+    videoContainer.dispatchEvent(vimeoPauseEvent);
   };
 
   var setCurrentTime = function(currentTime) {
     video.player.currentTime = currentTime;
     video.currentTime = currentTime;
+  };
+
+  var togglePlay = function() {
+    if (video.playing) {
+      video.player.pause();
+      video.playing = false;
+    } else {
+      video.player.play();
+      video.playing = true;
+    }
   };
 
   var play = function() {
@@ -77,6 +101,7 @@ module.exports = (function() {
   //
   return {
     init: init,
+    togglePlay: togglePlay,
     play: play,
     pause: pause,
     setCurrentTime: setCurrentTime

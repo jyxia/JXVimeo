@@ -1,33 +1,48 @@
+'use strict';
 var videoComponent = require('../components/Video');
 var progressComponent = require('../components/ProgressBar');
-var playButton = require('../components/PlayButton');
+var playButtonComponent = require('../components/PlayButton');
 var publishers = require('../eventManager/Publishers');
 var subscribers = require('../eventManager/Subscribers');
+var playerEvents = require('../eventManager/PlayerEvents');
+var createCustomEvent = require('../utility/CreateCustomEvent');
 
 module.exports = (function() {
-  var playerContainer = function(videoLink) {
-    var container = document.createElement('div');
-    container.className = 'player-container';
+  var playerContainer;
+
+  var init = function(videoLink) {
+    playerContainer = document.createElement('div');
+    playerContainer.className = 'player-container';
+    playerContainer.setAttribute('tabindex', 0);
     var video = videoComponent.init(videoLink);
-    container.appendChild(video);
+    playerContainer.appendChild(video);
 
     var controls = document.createElement('div');
     controls.className = 'controls';
-    var playBtn = playButton.init();
+    var playBtn = playButtonComponent.init();
     controls.appendChild(playBtn);
     var progress = progressComponent.init();
     controls.appendChild(progress);
-    container.appendChild(controls);
+    playerContainer.appendChild(controls);
 
     // register pubs/subs here.
-    publishers.init(playBtn, progress, video);
-    subscribers.init(playBtn, progressComponent, videoComponent);
+    publishers.init(playBtn, progress, video, playerContainer);
+    subscribers.init(playButtonComponent, progressComponent, videoComponent, playerContainer);
 
-    return container;
+    playerContainer.addEventListener('keypress', _keypressListener, false);
+
+    return playerContainer;
+  };
+
+  var _keypressListener = function(event) {
+    if (event.keyCode === 32) {
+      var videoTogglePlayEvent = createCustomEvent(playerEvents.togglePlay);
+      playerContainer.dispatchEvent(videoTogglePlayEvent);
+    }
   };
 
   return {
-    playerContainer: playerContainer,
+    init: init
   };
 
 })();

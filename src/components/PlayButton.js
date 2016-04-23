@@ -1,3 +1,5 @@
+'use strict';
+
 var playButtonElement = require('../elements/PlayButtonElement');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 var playerEvents = require('../eventManager/PlayerEvents');
@@ -10,34 +12,39 @@ module.exports = (function() {
 
   var init = function() {
     playbutton = playButtonElement.createPlayButton();
-    var playIcon = playbutton.children[0];
-    var pauseIcon = playbutton.children[1];
-    playbutton.addEventListener('click', function() {
-      buttonClickListener(playIcon, pauseIcon);
-    }, false);
-
+    playbutton.addEventListener('click', _buttonClickListener, false);
     return playbutton;
   };
 
-  var buttonClickListener = function(playIcon, pauseIcon) {
+  var _buttonClickListener = function() {
     if (state.playing) {
-      playIcon.style.display = 'block';
-      pauseIcon.style.display = 'none';
       var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
       playbutton.dispatchEvent(vimeoPauseEvent);
       state.playing = false;
     } else {
-      playIcon.style.display = 'none';
-      pauseIcon.style.display = 'block';
       var vimeoPlayEvent = createCustomEvent(playerEvents.play);
       playbutton.dispatchEvent(vimeoPlayEvent);
       state.playing = true;
     }
   };
 
+  var toggle = function(eventName) {
+    var playIcon = playbutton.children[0];
+    var pauseIcon = playbutton.children[1];
+    if (eventName === playerEvents.pause) {
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+      state.playing = false;
+    } else {
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+      state.playing = true;
+    }
+  };
+
   return {
     init: init,
-    playbutton: playbutton
+    togglePlay: toggle
   };
 
 })();

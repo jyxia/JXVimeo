@@ -1,3 +1,4 @@
+'use strict';
 module.exports = (function() {
   var createPlayButton = function() {
     var playButton = document.createElement('div');

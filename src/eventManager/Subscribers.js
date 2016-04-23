@@ -1,13 +1,15 @@
+'use strict';
 var playerEvents = require('./PlayerEvents');
 var eventManager = require('./PubSub');
 
 module.exports = (function() {
-  var registerSubscribers = function(playButton, progress, video) {
-    videoSubs(video);
-    progressSubs(progress);
+  var registerSubscribers = function(playButton, progress, video, playerContainer) {
+    _videoSubs(video);
+    _progressSubs(progress);
+    _buttonSubs(playButton);
   };
 
-  var videoSubs = function(video) {
+  var _videoSubs = function(video) {
     eventManager.subscribe(playerEvents.play, function() {
       video.play();
     });
@@ -17,9 +19,12 @@ module.exports = (function() {
     eventManager.subscribe(playerEvents.seek, function(data) {
       video.setCurrentTime(data.currentTime);
     });
+    eventManager.subscribe(playerEvents.togglePlay, function() {
+      video.togglePlay();
+    });
   };
 
-  var progressSubs = function(progress) {
+  var _progressSubs = function(progress) {
     eventManager.subscribe(playerEvents.videoReady, function(data) {
       progress.initTimeBox(data);
     });
@@ -33,6 +38,16 @@ module.exports = (function() {
       progress.updateTick(data);
     });
   };
+
+  var _buttonSubs = function(playButton) {
+    eventManager.subscribe(playerEvents.playing, function() {
+      playButton.togglePlay(playerEvents.playing);
+    });
+    eventManager.subscribe(playerEvents.pause, function() {
+      playButton.togglePlay(playerEvents.pause);
+    });
+  };
+
 
   return {
     init: registerSubscribers

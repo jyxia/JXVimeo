@@ -1,3 +1,5 @@
+'use strict';
+
 var utility = require('../utility/Utility');
 var progressWrapper = require('../elements/PlayerProgressElement.js');
 var playerEvents = require('../eventManager/PlayerEvents');
@@ -9,6 +11,7 @@ module.exports = (function() {
   var progressBar;
   var progressContainer;
   var playerContainer;
+  var isMouseDown = false;
 
   var init = function() {
     progressContainer = progressWrapper.progressWrapper();
@@ -40,6 +43,7 @@ module.exports = (function() {
   };
 
   var _mousedownListener = function(event) {
+    isMouseDown = true;
     event.preventDefault();
     playerContainer = progressContainer.parentNode.parentNode;
     utility.addClass(playerContainer, 'grabbable');
@@ -50,6 +54,7 @@ module.exports = (function() {
   };
 
   var _mouseupListener = function() {
+    if (!isMouseDown) return;
     utility.removeClass(playerContainer, 'grabbable');
     progressBar.addEventListener('mousemove', _mousemoveListener, false);
     // when mouse is up remove mousemove event from documentElement
@@ -87,7 +92,6 @@ module.exports = (function() {
     } else if (e.client) {
       mPosx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     }
-
     while (obj.offsetParent) {
       ePosx += obj.offsetLeft;
       obj = obj.offsetParent;

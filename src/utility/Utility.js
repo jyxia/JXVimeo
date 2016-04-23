@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   splitTime: function(timeInSeconds) {
     var tm = new Date(timeInSeconds * 1000);
@@ -5,10 +7,10 @@ module.exports = {
     var minutes = tm.getUTCMinutes();
     var seconds = tm.getUTCSeconds();
     if (minutes < 10) {
-      minutes = "0" + minutes;
+      minutes = '0' + minutes;
     }
     if (seconds < 10) {
-      seconds = "0" + seconds;
+      seconds = '0' + seconds;
     }
 
     if (hours === 0) {

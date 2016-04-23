@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (function() {
   var createVideoElement = function(videoLink) {
     var videoContainer = document.createElement('div');

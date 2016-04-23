@@ -1,3 +1,4 @@
+'use strict';
 /**
 * create a custom event for a HTML element, only the same element can listen to.
 * it's the element's internal events
