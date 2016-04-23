@@ -35,10 +35,14 @@ module.exports = (function() {
       playIcon.style.display = 'block';
       pauseIcon.style.display = 'none';
       state.playing = false;
+      playbutton.setAttribute('aria-label', 'play');
+      // playbutton.setAttribute('title', 'play');
     } else {
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
       state.playing = true;
+      playbutton.setAttribute('aria-label', 'pause');
+      // playbutton.setAttribute('title', 'pause');
     }
   };
 

@@ -41,22 +41,16 @@ module.exports = (function() {
     var videoTickEvent = createCustomEvent(playerEvents.tick, tickData);
     videoContainer.dispatchEvent(videoTickEvent);
 
-    var playedProgressData = { progress: video.currentTime / video.duration * 100 };
-    var videoBufferEvent = createCustomEvent(playerEvents.played, playedProgressData);
-    videoContainer.dispatchEvent(videoBufferEvent);
+    var playedProgressData = { progress: video.currentTime };
+    var videoPlayedEvent = createCustomEvent(playerEvents.played, playedProgressData);
+    videoContainer.dispatchEvent(videoPlayedEvent);
   };
 
   var _progressUpdateListener = function() {
-    var range = 0;
-    var bf = video.player.buffered;
-    var time = video.player.currentTime;
-
-    while(!(bf.start(range) <= time && time <= bf.end(range))) {
-      range += 1;
-    }
-
-    if (range < bf.start.length) {
-      var bufferData = { buffered: bf.end(range) / video.duration * 100 };
+    var buffered = video.player.buffered;
+    if (buffered.length > 0) {
+      var bufferedEnd = buffered.end(buffered.length - 1);
+      var bufferData = { buffered: bufferedEnd };
       var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
       videoContainer.dispatchEvent(videoBufferEvent);
     }
@@ -72,9 +66,9 @@ module.exports = (function() {
     videoContainer.dispatchEvent(vimeoPauseEvent);
   };
 
-  var setCurrentTime = function(currentTime) {
-    video.player.currentTime = currentTime;
-    video.currentTime = currentTime;
+  var seek = function(time) {
+    video.player.currentTime = time;
+    video.currentTime = time;
   };
 
   var togglePlay = function() {
@@ -89,12 +83,23 @@ module.exports = (function() {
 
   var play = function() {
     video.player.play();
+    video.playing = true;
   };
 
   var pause = function() {
     video.player.pause();
+    video.playing = false;
   };
 
+  var fastForward = function(steps) {
+    video.currentTime += steps;
+    video.player.currentTime = video.currentTime;
+  };
+
+  var rewind = function(steps) {
+    video.currentTime -= steps;
+    video.player.currentTime = video.currentTime;
+  };
   //
   // Video component public APIs
   // Outside world can change video component states by accessing to these APIs.
@@ -104,7 +109,9 @@ module.exports = (function() {
     togglePlay: togglePlay,
     play: play,
     pause: pause,
-    setCurrentTime: setCurrentTime
+    seek: seek,
+    fastForward: fastForward,
+    rewind: rewind
   };
 
 })();

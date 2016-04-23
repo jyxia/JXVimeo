@@ -17,7 +17,7 @@
   display: none!important;
 }
 
-.video-container {
+.player-container > .video-container {
   position: absolute;
   background: #000;
   width: 100%;
@@ -29,7 +29,7 @@
   height: 100%;
 }
 
-.player-container .controls {
+.player-container > .controls {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -41,18 +41,23 @@
   align-items: flex-end;
 }
 
-.controls .play {
+.controls > .play {
   width: 6.5em;
   height: 4em;
   margin-right: .9em;
   color: #fff;
   position: relative;
+  transition: opacity 250ms ease-out,background-color 40ms,color 40ms;
 }
 
-.controls button {
+.controls > button {
   background: rgba(23,35,34,.75);
   border-radius: .5em;
   border: 0;
+}
+
+.controls > button:hover {
+  background-color: rgb(0, 173, 239);
 }
 
 .controls .play .play-icon {
@@ -76,7 +81,7 @@
   fill: #fff;
 }
 
-.controls .progress-wrapper {
+.controls > .progress-wrapper {
   flex: 1;
   position: relative;
   justify-content: flex-end;
@@ -127,8 +132,6 @@
   font: 1em Verdana,sans-serif;
   background: #000;
   color: #fff;
-  /*margin-left: 2.3em;
-  left: -50%;*/
 }
 
 .player-container .hover-timebox .time-pop::after  {
@@ -170,11 +173,17 @@
   border-color: #fff transparent transparent transparent;
 }
 
-.grabbable {
+/* change cursor style while scrubbing */
+.player-container.grabbable {
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
 }
 
-.grabbable:active {
+.player-container.grabbable:active {
   cursor: grabbing;
+}
+
+/* disable outline (boarder) hightlight if the element is selected */
+.player-container *:focus {
+  outline-width: 0;
 }

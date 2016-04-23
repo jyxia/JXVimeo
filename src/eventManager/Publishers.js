@@ -55,6 +55,12 @@ module.exports = (function() {
     playerContainer.addEventListener(playerEvents.togglePlay, function() {
       eventManager.publish(playerEvents.togglePlay);
     }, false);
+    playerContainer.addEventListener(playerEvents.fastForward, function(data) {
+      eventManager.publish(playerEvents.fastForward, data.detail);
+    }, false);
+    playerContainer.addEventListener(playerEvents.rewind, function(data) {
+      eventManager.publish(playerEvents.rewind, data.detail);
+    }, false);
   };
 
   return {

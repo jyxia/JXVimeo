@@ -3,17 +3,25 @@ module.exports = (function() {
   var buffered = function() {
     var bufferedDiv = document.createElement('div');
     bufferedDiv.className = 'buffered';
+    bufferedDiv.setAttribute('role', 'progressbar');
+    bufferedDiv.setAttribute('aria-label', 'buffed');
+    bufferedDiv.setAttribute('aria-valuemin', 0);
     return bufferedDiv;
   };
 
   var played = function() {
     var playedDiv = document.createElement('div');
     playedDiv.className = 'played';
+    playedDiv.setAttribute('role', 'progressbar');
+    playedDiv.setAttribute('aria-label', 'played');
+    playedDiv.setAttribute('aria-valuemin', 0);
     return playedDiv;
   };
 
   var hoverTimebox = function() {
     var hoverTimeboxDiv = document.createElement('div');
+    hoverTimeboxDiv.setAttribute('role', 'presentation');
+    hoverTimeboxDiv.setAttribute('aria-hidden', 'true');
     hoverTimeboxDiv.className = 'hover-timebox';
     var timePopDiv = timePop('00:00');
     hoverTimeboxDiv.appendChild(timePopDiv);
@@ -22,6 +30,8 @@ module.exports = (function() {
 
   var timebox = function() {
     var timeboxDiv = document.createElement('div');
+    timeboxDiv.setAttribute('role', 'presentation');
+    timeboxDiv.setAttribute('aria-hidden', 'true');
     timeboxDiv.className = 'timebox';
     var timePopDiv = timePop('00:00');
     timeboxDiv.appendChild(timePopDiv);

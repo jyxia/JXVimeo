@@ -17,5 +17,7 @@ module.exports = {
   buffered: 'vimeoBuffered',
   progressupdate: 'vimeoProgressUpddate',
   played: 'viemoPlayed',
-  tick: 'vimeoTick'
+  tick: 'vimeoTick',
+  fastForward: 'viemoFastForward',
+  rewind: 'vimeoRewind'
 };

@@ -17,16 +17,25 @@ module.exports = (function() {
       video.pause();
     });
     eventManager.subscribe(playerEvents.seek, function(data) {
-      video.setCurrentTime(data.currentTime);
+      video.seek(data.currentTime);
     });
     eventManager.subscribe(playerEvents.togglePlay, function() {
       video.togglePlay();
+    });
+    eventManager.subscribe(playerEvents.fastForward, function(data) {
+      video.fastForward(data.steps);
+    });
+    eventManager.subscribe(playerEvents.rewind, function(data) {
+      video.rewind(data.steps);
     });
   };
 
   var _progressSubs = function(progress) {
     eventManager.subscribe(playerEvents.videoReady, function(data) {
-      progress.initTimeBox(data);
+      progress.updateDuration(data);
+    });
+    eventManager.subscribe(playerEvents.playing, function() {
+      progress.receivePlaying(playerEvents.playing);
     });
     eventManager.subscribe(playerEvents.buffered, function(data) {
       progress.updateBufferedProgress(data);

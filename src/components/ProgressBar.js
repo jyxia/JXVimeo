@@ -48,6 +48,7 @@ module.exports = (function() {
     playerContainer = progressContainer.parentNode.parentNode;
     utility.addClass(playerContainer, 'grabbable');
     _dispatchSeek(event);
+
     // only add mousemove to document when mouse down to progressBar happened
     document.documentElement.addEventListener('mousemove', _mousedownmoveListener, false);
     progressBar.removeEventListener('mousemove', _mousemoveListener);
@@ -57,6 +58,7 @@ module.exports = (function() {
     if (!isMouseDown) return;
     utility.removeClass(playerContainer, 'grabbable');
     progressBar.addEventListener('mousemove', _mousemoveListener, false);
+
     // when mouse is up remove mousemove event from documentElement
     document.documentElement.removeEventListener('mousemove', _mousedownmoveListener);
   };
@@ -103,12 +105,22 @@ module.exports = (function() {
   };
 
   var updatePlayedProgress = function(data) {
-    progressBarChildren.played.style.width = data.progress.toFixed(3) + '%';
-    progressBarChildren.timeBox.style.left = data.progress.toFixed(3) + '%';
+    if (videoDuration <= 0) return;
+    var playedPecentage = data.progress / videoDuration * 100;
+    progressBarChildren.played.style.width = playedPecentage.toFixed(3) + '%';
+    progressBarChildren.timeBox.style.left = playedPecentage.toFixed(3) + '%';
+    progressBarChildren.played.setAttribute('aria-valuenow', data.progress);
+    var playedAriaText = utility.readTime(data.progress) + ' played';
+    progressBarChildren.played.setAttribute('aria-valuetext', playedAriaText);
   };
 
   var updateBufferedProgress = function(data) {
-    progressBarChildren.buffered.style.width = data.buffered.toFixed(3) + '%';
+    if (videoDuration <= 0) return;
+    var bufferedPercentage = data.buffered / videoDuration * 100;
+    progressBarChildren.buffered.style.width = bufferedPercentage.toFixed(3) + '%';
+    progressBarChildren.buffered.setAttribute('aria-valuenow', data.buffered);
+    var bufferedAriaText = utility.readTime(data.buffered) + ' buffered';
+    progressBarChildren.buffered.setAttribute('aria-valuetext', bufferedAriaText);
   };
 
   var updateTimeBox = function(data) {
@@ -116,13 +128,20 @@ module.exports = (function() {
     progressBarChildren.timeBox.firstElementChild.innerHTML = currentTime;
   };
 
-  var initTimeBox = function(data) {
-    videoDuration = data.duration;
-    progressBarChildren.timeBox.firstElementChild.innerHTML = utility.splitTime(data.duration);
-  };
-
   var updateTick = function(data) {
     progressBarChildren.timeBox.firstElementChild.innerHTML = utility.splitTime(data.currentTime);
+  };
+
+  var updateDuration = function(data) {
+    videoDuration = data.duration;
+    // update UIs related with duation
+    progressBarChildren.timeBox.firstElementChild.innerHTML = utility.splitTime(videoDuration);
+    progressBarChildren.played.setAttribute('aria-valuemax', videoDuration.toFixed(3));
+    progressBarChildren.buffered.setAttribute('aria-valuemax', videoDuration.toFixed(3));
+  };
+
+  var receivePlaying = function() {
+    utility.addClass(progressBarChildren.hoverTimebox, 'invisible');
   };
 
   //
@@ -134,8 +153,9 @@ module.exports = (function() {
     updatePlayedProgress: updatePlayedProgress,
     updateBufferedProgress: updateBufferedProgress,
     updateTimeBox: updateTimeBox,
-    initTimeBox: initTimeBox,
-    updateTick: updateTick
+    updateTick: updateTick,
+    updateDuration: updateDuration,
+    receivePlaying: receivePlaying
   };
 
 })();

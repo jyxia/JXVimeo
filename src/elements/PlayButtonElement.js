@@ -38,6 +38,8 @@ module.exports = (function() {
   var createButton = function() {
     var button = document.createElement('button');
     button.className = 'play';
+    button.setAttribute('aria-label', 'play');
+    button.setAttribute('title', 'play');
     var playBtn = createPlayButton();
     button.appendChild(playBtn);
     var pauseBtn = createPauseButton();

@@ -9,11 +9,12 @@ var createCustomEvent = require('../utility/CreateCustomEvent');
 
 module.exports = (function() {
   var playerContainer;
+  var leftArrowCount = 0;
+  var rightArrowCount = 0;
 
   var init = function(videoLink) {
     playerContainer = document.createElement('div');
     playerContainer.className = 'player-container';
-    playerContainer.setAttribute('tabindex', 0);
     var video = videoComponent.init(videoLink);
     playerContainer.appendChild(video);
 
@@ -29,15 +30,41 @@ module.exports = (function() {
     publishers.init(playBtn, progress, video, playerContainer);
     subscribers.init(playButtonComponent, progressComponent, videoComponent, playerContainer);
 
-    playerContainer.addEventListener('keypress', _keypressListener, false);
+    document.documentElement.addEventListener('keydown', _keydownListener, false);
+    document.documentElement.addEventListener('keyup', _keyupListener, false);
 
     return playerContainer;
   };
 
-  var _keypressListener = function(event) {
+  var _keydownListener = function(event) {
     if (event.keyCode === 32) {
+      event.preventDefault();
       var videoTogglePlayEvent = createCustomEvent(playerEvents.togglePlay);
       playerContainer.dispatchEvent(videoTogglePlayEvent);
+    }
+
+    if (event.keyCode === 37) {
+      rightArrowCount += 1;
+      var rewindData = { steps: rightArrowCount };
+      var rewindEvent = createCustomEvent(playerEvents.rewind, rewindData);
+      playerContainer.dispatchEvent(rewindEvent);
+    }
+
+    if (event.keyCode === 39) {
+      leftArrowCount += 1;
+      var fastForwardData = { steps: leftArrowCount };
+      var fastForwardEvent = createCustomEvent(playerEvents.fastForward, fastForwardData);
+      playerContainer.dispatchEvent(fastForwardEvent);
+    }
+  };
+
+  var _keyupListener = function(event) {
+    if (event.keyCode === 37) {
+      rightArrowCount = 0;
+    }
+
+    if (event.keyCode === 39) {
+      leftArrowCount = 0;
     }
   };
 
