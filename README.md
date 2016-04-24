@@ -27,7 +27,7 @@ For example:
 </script>
 ```
 ## Demo
-Open `demo.html` under `public` directory. Or click here: [Demo](xiajinyue.info/JXVimeo/demo.html).
+Open `demo.html` under `public` directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
 
 ## Player features
 Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard).
