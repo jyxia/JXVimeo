@@ -15,9 +15,9 @@
 In your HTML `<script>` tag, include `player.min.js` or `player.js`, and generate player element by calling function `play(videoLink, width, height)`. `videoLink` is the video file link, `width` is the width you want to give to the player, `height` is the height you want to give to the player.
 
 For example:
-```
+```javascript
 <script src="./js/player.js"></script>
-<script>```javascript
+<script>
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
   var width = '800px';
   var height = '450px';
