@@ -1,0 +1,192 @@
+.player-container {
+  position: relative;
+}
+
+.player-container * {
+  font-size: 10px;
+  box-sizing: border-box;
+}
+
+.player-container .invisible {
+  opacity: 0;
+}
+
+.player-container .hidden {
+  display: none!important;
+}
+
+.player-container > .video-container {
+  position: absolute;
+  background: #000;
+  width: 100%;
+  height: 100%;
+}
+
+.player-container video {
+  width: 100%;
+  height: 100%;
+}
+
+.player-container > .controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  opacity: 1;
+  z-index: 8;
+  display: flex;
+  align-items: flex-end;
+  transition: opacity 1s ease;
+}
+
+.player-container > .controls:hover {
+  opacity: 1;
+}
+
+.player-container .controls > .play {
+  width: 6.5em;
+  height: 4em;
+  margin-right: .9em;
+  color: #fff;
+  position: relative;
+  transition: opacity 250ms ease-out,background-color 40ms,color 40ms;
+}
+
+.player-container .controls > button {
+  background: rgba(23,35,34,.75);
+  border-radius: .5em;
+  border: 0;
+}
+
+.player-container .controls > button:hover {
+  background-color: rgb(0, 173, 239);
+}
+
+.player-container .controls .play .play-icon {
+  margin: 0 auto;
+}
+
+.player-container .controls .play .play-icon svg {
+  height: 2em;
+  width: 2em;
+  fill: #fff;
+}
+
+.player-container .controls .play .pause-icon {
+  display: none;
+  margin: 0 auto;
+}
+
+.player-container .controls .play .pause-icon svg {
+  height: 2em;
+  width: 2em;
+  fill: #fff;
+}
+
+.player-container .controls > .progress-wrapper {
+  flex: 1;
+  position: relative;
+  justify-content: flex-end;
+  height: 3.2em;
+  padding: 1em;
+  border-radius: 2px;
+  background: rgba(23,35,34,.75);
+}
+
+.player-container .controls .progress-wrapper .progress {
+  flex: 1;
+  position: relative;
+  border: .1em solid #666;
+  cursor: pointer;
+  height: 100%;
+}
+
+.player-container .controls .progress-wrapper .progress:active {
+  cursor: grabbing;
+}
+
+.player-container .controls .progress-wrapper .progress .buffered, .played {
+  position: absolute;
+  height: 100%;
+  border: .1em solid transparent;
+}
+
+.player-container .controls .progress-wrapper .progress .buffered {
+  background-color: #666;
+  transition: width 175ms cubic-bezier(.18,0,.07,1);
+}
+
+.player-container .controls .progress-wrapper .progress .played {
+  background-color: rgb(0, 173, 239);
+  transition: width 175ms cubic-bezier(.18,0,.07,1);
+}
+
+.player-container .hover-timebox {
+  position: absolute;
+  bottom: 1.4em;
+  margin: 0 0 0 -1.9em;
+}
+
+.player-container .hover-timebox .time-pop {
+  position: relative;
+  display: inline-block;
+  padding: .2em .4em;
+  font: 1em Verdana,sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+.player-container .hover-timebox .time-pop::after  {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 100%;
+  margin-left: -.3em;
+  border-width: .3em;
+  bottom: -.3em;
+  border-style: solid;
+  border-color: #000 transparent transparent transparent;
+}
+
+.player-container .timebox {
+  position: absolute;
+  bottom: 1.4em;
+  margin: 0 0 0 -1.9em;
+}
+
+.player-container .timebox .time-pop {
+  position: relative;
+  display: inline-block;
+  padding: .2em .4em;
+  font: 1em Verdana,sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+.player-container .timebox .time-pop::after  {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 100%;
+  margin-left: -.3em;
+  border-width: .3em;
+  bottom: -.3em;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* change cursor style while scrubbing */
+.player-container.grabbable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+}
+
+.player-container.grabbable:active {
+  cursor: grabbing;
+}
+
+/* disable outline (boarder) hightlight if the element is selected */
+.player-container *:focus {
+  outline-width: 0;
+}

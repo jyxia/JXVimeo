@@ -1,0 +1,18 @@
+{
+  "strict": true,
+  "camelcase": true,
+  "eqeqeq": true,
+  "unused": true,
+  "undef": true,
+  "indent": 2,
+  "quotmark": "single",
+  "emitErrors": false,
+  "failOnHint": false,
+  "node": true,
+  "globals": {
+    "document": true,
+    "window": true,
+    "Event": true,
+    "CustomEvent": true
+  }
+}

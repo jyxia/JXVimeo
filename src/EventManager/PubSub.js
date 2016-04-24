@@ -1,27 +1,40 @@
-module.exports = {
-  events: {},
+'use strict';
 
-  subscribe: function (eventName, fn) {
-    this.events[eventName] = this.events[eventName] || [];
-    this.events[eventName].push(fn);
-  },
+module.exports = (function() {
+  var events = {};
 
-  unsubsribe: function(eventName, fn) {
-    if (this.events[eventName]) {
-      for (var i = 0; i < this.events[eventName].length; i++) {
-        if (this.events[eventName][i] === fn) {
-          this.events[eventName].splice(i, 1);
+  var init = function() {
+    events = {};
+  };
+
+  var subscribe = function(eventName, fn) {
+    events[eventName] = events[eventName] || [];
+    events[eventName].push(fn);
+  };
+
+  var unsubscribe = function(eventName, fn) {
+    if (events[eventName]) {
+      for (var i = 0; i < events[eventName].length; i++) {
+        if (events[eventName][i] === fn) {
+          events[eventName].splice(i, 1);
           break;
         }
-      };
+      }
     }
-  },
+  };
 
-  publish: function (eventName, data) {
-    if (this.events[eventName]) {
-      this.events[eventName].forEach(function(fn) {
+  var publish = function(eventName, data) {
+    if (events[eventName]) {
+      events[eventName].forEach(function(fn) {
         fn(data);
       });
     }
-  }
-};
+  };
+
+  return {
+    subscribe: subscribe,
+    publish: publish,
+    unsubscribe: unsubscribe,
+    init: init
+  };
+})();
