@@ -14,6 +14,7 @@ module.exports = (function() {
   var leftArrowCount = 0;
   var rightArrowCount = 0;
   var mouseStopTimer;
+  var isMouseDown = false;
 
   var init = function(videoLink, width, height) {
     playerContainer = document.createElement('div');
@@ -37,6 +38,9 @@ module.exports = (function() {
 
     document.documentElement.addEventListener('keydown', _keydownListener, false);
     document.documentElement.addEventListener('keyup', _keyupListener, false);
+    document.documentElement.addEventListener('mousedown', _mousedownListener, false);
+    document.documentElement.addEventListener('mouseup', _mouseupListener, false);
+
     playerContainer.addEventListener('mousemove', _mousemoveListner, false);
     playerContainer.addEventListener('mouseleave', _mouseLeaveListner, false);
     playerControls.addEventListener('mouseenter', _controlsMouseEnterListener, false);
@@ -46,7 +50,9 @@ module.exports = (function() {
   };
 
   var _mouseLeaveListner = function() {
-    utility.addClass(playerControls, 'hidden');
+    if (!isMouseDown) {
+      utility.addClass(playerControls, 'hidden');
+    }
     playerContainer.addEventListener('mousemove', _mousemoveListner, false);
   };
 
@@ -68,6 +74,14 @@ module.exports = (function() {
     mouseStopTimer = window.setTimeout(function() {
       utility.addClass(playerControls, 'hidden');
     }, 2000);
+  };
+
+  var _mousedownListener = function() {
+    isMouseDown = true;
+  };
+
+  var _mouseupListener = function() {
+    isMouseDown = false;
   };
 
   var _keydownListener = function(event) {

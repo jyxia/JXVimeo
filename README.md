@@ -17,7 +17,7 @@ In your HTML `<script>` tag, include `player.min.js` or `player.js`, and generat
 For example:
 ```
 <script src="./js/player.js"></script>
-<script>
+<script>```javascript
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
   var width = '800px';
   var height = '450px';
@@ -27,7 +27,18 @@ For example:
 </script>
 ```
 ## Demo
-open `demo.html` under `public` directory.
+Open `demo.html` under `public` directory. Or click here: [Demo](xiajinyue.info/JXVimeo/demo.html).
 
 ## Player features
-Meets all requirements, including _accessibility_ of the player (supports screen reader and keyboard).
+Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard).
+* Play/pause, show/hide same as Vimeo player
+* Video time, duration, buffered, played same as Vimeo player
+* :tada: Scrubbing
+  * matches current Vimeo player's behavior: you can even scrub the progress outside of the player.
+* :tada: Accessibility
+  * _spacebar_ controls play/pause, _left/right_ arrow key controls fastforward and rewind.
+  * screen readers can read player's _playing/buffered_ progress.
+
+## Implementation
+
+## Discussion

@@ -155,7 +155,8 @@ module.exports = (function() {
     updateTimeBox: updateTimeBox,
     updateTick: updateTick,
     updateDuration: updateDuration,
-    receivePlaying: receivePlaying
+    receivePlaying: receivePlaying,
+    isMouseDown: isMouseDown
   };
 
 })();
