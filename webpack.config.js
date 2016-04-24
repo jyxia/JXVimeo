@@ -1,6 +1,9 @@
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
+var libraryName = 'player';
+var dev = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: {
@@ -9,7 +12,10 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'public/js'),
-    filename: "[name].js",
+    filename:  dev ? '[name].js' : '[name].min.js',
+    library: libraryName,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     preLoaders: [
@@ -26,10 +32,18 @@ module.exports = {
       }
     ]
   },
-  devtool: 'inline-source-map',
-  plugins: [
-    new ExtractTextPlugin('../css/style.css')
-  ],
+  devtool: dev ? 'inline-source-map': null,
+  resolve: {
+    root: path.resolve('./src'),
+    extensions: ['', '.js']
+  },
+  plugins:
+    dev ? [new ExtractTextPlugin('../css/style.css')] : [
+      new ExtractTextPlugin('../css/style.css'),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.OccurenceOrderPlugin(),
+      new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    ],
   postcss: [
     autoprefixer({ browsers: ['last 2 versions'] })
   ]

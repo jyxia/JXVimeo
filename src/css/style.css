@@ -1,6 +1,4 @@
 .player-container {
-  height: 302px;
-  width: 536px;
   position: relative;
 }
 
@@ -39,9 +37,14 @@
   z-index: 8;
   display: flex;
   align-items: flex-end;
+  transition: opacity 1s ease;
 }
 
-.controls > .play {
+.player-container > .controls:hover {
+  opacity: 1;
+}
+
+.player-container .controls > .play {
   width: 6.5em;
   height: 4em;
   margin-right: .9em;
@@ -50,38 +53,38 @@
   transition: opacity 250ms ease-out,background-color 40ms,color 40ms;
 }
 
-.controls > button {
+.player-container .controls > button {
   background: rgba(23,35,34,.75);
   border-radius: .5em;
   border: 0;
 }
 
-.controls > button:hover {
+.player-container .controls > button:hover {
   background-color: rgb(0, 173, 239);
 }
 
-.controls .play .play-icon {
+.player-container .controls .play .play-icon {
   margin: 0 auto;
 }
 
-.controls .play .play-icon svg {
+.player-container .controls .play .play-icon svg {
   height: 2em;
   width: 2em;
   fill: #fff;
 }
 
-.controls .play .pause-icon {
+.player-container .controls .play .pause-icon {
   display: none;
   margin: 0 auto;
 }
 
-.controls .play .pause-icon svg {
+.player-container .controls .play .pause-icon svg {
   height: 2em;
   width: 2em;
   fill: #fff;
 }
 
-.controls > .progress-wrapper {
+.player-container .controls > .progress-wrapper {
   flex: 1;
   position: relative;
   justify-content: flex-end;
@@ -91,7 +94,7 @@
   background: rgba(23,35,34,.75);
 }
 
-.controls .progress-wrapper .progress {
+.player-container .controls .progress-wrapper .progress {
   flex: 1;
   position: relative;
   border: .1em solid #666;
@@ -99,22 +102,22 @@
   height: 100%;
 }
 
-.controls .progress-wrapper .progress:active {
+.player-container .controls .progress-wrapper .progress:active {
   cursor: grabbing;
 }
 
-.controls .progress-wrapper .progress .buffered, .played {
+.player-container .controls .progress-wrapper .progress .buffered, .played {
   position: absolute;
   height: 100%;
   border: .1em solid transparent;
 }
 
-.controls .progress-wrapper .progress .buffered {
+.player-container .controls .progress-wrapper .progress .buffered {
   background-color: #666;
   transition: width 175ms cubic-bezier(.18,0,.07,1);
 }
 
-.controls .progress-wrapper .progress .played {
+.player-container .controls .progress-wrapper .progress .played {
   background-color: rgb(0, 173, 239);
   transition: width 175ms cubic-bezier(.18,0,.07,1);
 }

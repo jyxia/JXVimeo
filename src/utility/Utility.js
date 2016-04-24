@@ -69,5 +69,15 @@ module.exports = {
       var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
       el.className=el.className.replace(reg, ' ');
     }
+  },
+
+  generateRandomId: function(idLength) {
+    var id = '';
+    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    for (var i = 1; i <= idLength; i++) {
+        var randPos = Math.floor(Math.random() * charSet.length);
+        id += charSet[randPos];
+    }
+    return id;
   }
 };

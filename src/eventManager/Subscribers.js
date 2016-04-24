@@ -3,7 +3,7 @@ var playerEvents = require('./PlayerEvents');
 var eventManager = require('./PubSub');
 
 module.exports = (function() {
-  var registerSubscribers = function(playButton, progress, video, playerContainer) {
+  var registerSubscribers = function(playButton, progress, video) {
     _videoSubs(video);
     _progressSubs(progress);
     _buttonSubs(playButton);
@@ -56,7 +56,6 @@ module.exports = (function() {
       playButton.togglePlay(playerEvents.pause);
     });
   };
-
 
   return {
     init: registerSubscribers
