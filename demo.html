@@ -9,10 +9,10 @@
   <script src="./js/player.js"></script>
   <script>
     var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
-    var width = '800px';
-    var height = '450px';
-    var player = player(videoLink, width, height);
-    document.getElementsByTagName('body')[0].appendChild(player);
+    var width = '640px';
+    var height = '360px';
+    var myPlayer = player(videoLink, width, height);
+    document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
   </script>
 </body>
 </html>
