@@ -4,6 +4,17 @@ var videoElement = require('../elements/VideoElement');
 var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 
+/**
+ * Custom Object: Video
+ * members:
+ * 1. DOM objects:
+ * @param { DOM Object } this.videoContainer - contains video element
+ * 2. Video state:
+ * @param { Object } this.video
+ * In order to access to Video object and change states, use prototype's methods (APIs)
+ * @see Video.prototype
+ */
+
 var Video = function(videoLink) {
   this.videoContainer = videoElement.videoElement(videoLink);
   this.video = {
@@ -15,6 +26,9 @@ var Video = function(videoLink) {
   };
   var that = this;
 
+  /**
+  * private methods - mainly for event listeners
+  */
   var _loadeddataListener = function() {
     that.video.duration = that.video.player.duration;
     var durationData = { duration: that.video.duration };
@@ -61,6 +75,9 @@ var Video = function(videoLink) {
     that.togglePlay();
   };
 
+  /**
+  * register event listeners
+  */
   this.videoContainer.addEventListener('click', _mouseClickListner, false);
   this.video.player.addEventListener('loadeddata', _loadeddataListener, false);
   this.video.player.addEventListener('timeupdate', _timeupdateListener, false);

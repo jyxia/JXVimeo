@@ -1,4 +1,9 @@
 'use strict';
+
+/**
+ * @return { Function } progressWrapper() create a DOM element (wrapper div) for progress bar
+ */
+
 module.exports = (function() {
   var buffered = function() {
     var bufferedDiv = document.createElement('div');

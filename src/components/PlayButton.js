@@ -4,7 +4,19 @@ var playButtonElement = require('../elements/PlayButtonElement');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 var playerEvents = require('../eventManager/PlayerEvents');
 
+/**
+ * Custom Object: PlayButton
+ * members:
+ * 1. DOM objects: playbuttonElem - contains button element
+ * 2. Playing state: this.states
+ * In order to access to PlayButton object, use prototype's methods (APIs)
+ * @see PlayButton.prototype
+ */
+
 var PlayButton = function() {
+  this.playbuttonElem = playButtonElement.createPlayButton();
+  var that = this;
+
   var _buttonClickListener = function(event) {
     event.stopPropagation();
     if (that.state.playing) {
@@ -18,9 +30,7 @@ var PlayButton = function() {
     }
   };
 
-  this.playbuttonElem = playButtonElement.createPlayButton();
   this.playbuttonElem.addEventListener('click', _buttonClickListener, false);
-  var that = this;
 };
 
 PlayButton.prototype = {

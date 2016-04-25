@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Pub/Sub model definition 
+ */
+
 module.exports = (function() {
   var events = {};
 

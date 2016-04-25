@@ -5,7 +5,32 @@ var progressWrapper = require('../elements/PlayerProgressElement.js');
 var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 
+/**
+ * Custom Object: Progress
+ * members - DOM objects:
+ * @param { DOM Object } this.progressBar
+ * @param { Object } this.progressBarChildren - a collection of child DOMs of progressBar
+ *
+ * In order to access to this object, use prototype's methods (APIs)
+ * @see Progress.prototype
+ */
+
 var Progress = function() {
+  this.progressContainer = progressWrapper.progressWrapper();
+  this.progressBar = this.progressContainer.firstElementChild;
+  this.progressBarChildren = {
+    buffered: this.progressBar.children[0],
+    played: this.progressBar.children[1],
+    hoverTimebox: this.progressBar.children[2],
+    timeBox: this.progressBar.children[3]
+  };
+
+  var that = this;
+  var isMouseDown = false;
+
+  /**
+  * private methods - mainly for event listeners
+  */
   var _dispatchSeek = function(event) {
     var hoverPosition = _getMousePosition(event, that.progressBar);
     var data = { currentTime: that.videoDuration * hoverPosition };
@@ -50,8 +75,8 @@ var Progress = function() {
   };
 
   var _mousedownListener = function(event) {
-    that.isMouseDown = true;
     event.preventDefault();
+    isMouseDown = true;
     that.playerContainer = that.progressContainer.parentNode.parentNode;
     utility.addClass(that.playerContainer, 'grabbable');
     _dispatchSeek(event);
@@ -62,7 +87,7 @@ var Progress = function() {
   };
 
   var _mouseupListener = function() {
-    if (!that.isMouseDown) return;
+    if (!isMouseDown) return;
     utility.removeClass(that.playerContainer, 'grabbable');
     that.progressBar.addEventListener('mousemove', _mousemoveListener, false);
 
@@ -83,25 +108,20 @@ var Progress = function() {
     _dispatchSeek(event);
   };
 
-  this.progressContainer = progressWrapper.progressWrapper();
-  this.progressBar = this.progressContainer.firstElementChild;
-  this.progressBarChildren = {
-    buffered: this.progressBar.children[0],
-    played: this.progressBar.children[1],
-    hoverTimebox: this.progressBar.children[2],
-    timeBox: this.progressBar.children[3]
-  };
-
+  /**
+  * register event listeners
+  */
   this.progressBar.addEventListener('mousemove', _mousemoveListener, false);
   this.progressBar.addEventListener('mouseleave', _mouseleaveListener, false);
   this.progressBar.addEventListener('mousedown', _mousedownListener, false);
   document.documentElement.addEventListener('mouseup', _mouseupListener, false);
-
-  var that = this;
 };
 
+//
+// Progress APIs, other elements change progress states from here.
+// Also, if player expose a Progress object, then these APIs become the player's APIs.
+//
 Progress.prototype = {
-  isMouseDown: false,
   videoDuration: 0,
 
   updatePlayedProgress: function(data) {

@@ -2,7 +2,17 @@
 var playerEvents = require('./PlayerEvents');
 var eventManager = require('./PubSub');
 
+/**
+ * Place all subscribers here. It also makes logging esay.
+ * Register the DOM elements by calling init() @see init()
+ */
+
 module.exports = (function() {
+  /**
+  * @param playButton (DOM Object): playpause button
+  * @param progress (DOM Object): progress bar
+  * @param video (DOM Object): vidoe element
+  */
   var registerSubscribers = function(playButton, progress, video) {
     _videoSubs(video);
     _progressSubs(progress);

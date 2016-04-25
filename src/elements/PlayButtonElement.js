@@ -1,4 +1,9 @@
 'use strict';
+
+/**
+ * @return { Function } createPlayButton() create a DOM element (div) for play button
+ */
+
 module.exports = (function() {
   var createPlayButton = function() {
     var playButton = document.createElement('div');

@@ -8,13 +8,20 @@ var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 var utility = require('../utility/Utility');
 
+/**
+ * Custom Object: Player
+ * members:
+ * 1. DOM objects: this.playerContainer - contains all elements
+ * 2. Video object: this.video, it opens Player's APIs.
+ */
+
 var Player = function(videoLink, width, height) {
+  this.video = new Video(videoLink);
   var container = document.createElement('div');
   var randomId = utility.generateRandomId(10);
   container.className = 'player-container';
   container.setAttribute('id', randomId);
 
-  this.video = new Video(videoLink);
   container.style.width = width;
   container.style.height = height;
   container.appendChild(this.video.videoContainer);
@@ -35,19 +42,23 @@ var Player = function(videoLink, width, height) {
   subscribers.init(playBtn, progress, this.video);
 
   var that = this;
+  var isMouseDown = false;
+  var leftArrowCount = 0;
+  var rightArrowCount = 0;
+  var mouseStopTimer = null;
 
   var _resetMouseStopTimer = function() {
-    if (that.mouseStopTimer) {
-      window.clearTimeout(that.mouseStopTimer);
+    if (mouseStopTimer) {
+      window.clearTimeout(mouseStopTimer);
       utility.removeClass(that.playerControls, 'hidden');
     }
-    that.mouseStopTimer = window.setTimeout(function() {
+    mouseStopTimer = window.setTimeout(function() {
       utility.addClass(that.playerControls, 'hidden');
     }, 2000);
   };
 
   var _mouseLeaveListner = function() {
-    if (!that.isMouseDown) {
+    if (!isMouseDown) {
       utility.addClass(that.playerControls, 'hidden');
     }
     that.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
@@ -59,7 +70,7 @@ var Player = function(videoLink, width, height) {
 
   var _controlsMouseEnterListener = function() {
     utility.removeClass(that.playerControls, 'hidden');
-    if (that.mouseStopTimer) window.clearTimeout(that.mouseStopTimer);
+    if (mouseStopTimer) window.clearTimeout(mouseStopTimer);
     that.playerContainer.removeEventListener('mousemove', _mousemoveListner, false);
   };
 
@@ -68,11 +79,11 @@ var Player = function(videoLink, width, height) {
   };
 
   var _mousedownListener = function() {
-    that.isMouseDown = true;
+    isMouseDown = true;
   };
 
   var _mouseupListener = function() {
-    that.isMouseDown = false;
+    isMouseDown = false;
   };
 
   var _keydownListener = function(event) {
@@ -84,15 +95,15 @@ var Player = function(videoLink, width, height) {
     }
 
     if (event.keyCode === 37) {
-      that.rightArrowCount += 1;
-      var rewindData = { steps: that.rightArrowCount };
+      rightArrowCount += 1;
+      var rewindData = { steps: rightArrowCount };
       var rewindEvent = createCustomEvent(playerEvents.rewind, rewindData);
       that.playerContainer.dispatchEvent(rewindEvent);
     }
 
     if (event.keyCode === 39) {
-      that.leftArrowCount += 1;
-      var fastForwardData = { steps: that.leftArrowCount };
+      leftArrowCount += 1;
+      var fastForwardData = { steps: leftArrowCount };
       var fastForwardEvent = createCustomEvent(playerEvents.fastForward, fastForwardData);
       that.playerContainer.dispatchEvent(fastForwardEvent);
     }
@@ -100,11 +111,11 @@ var Player = function(videoLink, width, height) {
 
   var _keyupListener = function(event) {
     if (event.keyCode === 37) {
-      that.rightArrowCount = 0;
+      rightArrowCount = 0;
     }
 
     if (event.keyCode === 39) {
-      that.leftArrowCount = 0;
+      leftArrowCount = 0;
     }
   };
 
@@ -117,13 +128,7 @@ var Player = function(videoLink, width, height) {
   this.playerContainer.addEventListener('mouseleave', _mouseLeaveListner, false);
   this.playerControls.addEventListener('mouseenter', _controlsMouseEnterListener, false);
   this.playerControls.addEventListener('mouseleave', _controlsMouseLeaveListener, false);
-};
 
-Player.prototype = {
-  leftArrowCount: 0,
-  rightArrowCount: 0,
-  mouseStopTimer: null,
-  isMouseDown: false
 };
 
 module.exports = Player;

@@ -3,11 +3,19 @@ var playerEvents = require('./PlayerEvents');
 var eventManager = require('./PubSub');
 
 /**
-* Place all publishers here. It also makes logging esay.
-*
-*/
+ * Place all publishers here. It also makes logging esay.
+ * Register the DOM elements by calling init();
+ *
+ */
 
 module.exports = (function() {
+  /**
+  * @param playButton (DOM Object): playpause button
+  * @param progress (DOM Object): progress bar
+  * @param video (DOM Object): vidoe element
+  * @param playerContainer (DOM Object): a container element contains all elements
+  *
+  */
   var init = function(playButton, progress, video, playerContainer) {
     _playbuttonPublishers(playButton);
     _progressPublishers(progress);

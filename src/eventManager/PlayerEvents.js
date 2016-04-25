@@ -1,10 +1,8 @@
 'use strict';
 
 /**
-* All Viemo Player own event names are here
-*
-* @return {}
-*
+* All Viemo Player custom event names are here
+* @return { Object } contains all names
 */
 
 module.exports = {

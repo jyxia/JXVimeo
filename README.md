@@ -8,9 +8,10 @@
 Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard).
 * Play/pause, show/hide same as Vimeo player
 * Video time, duration, buffered, played same as Vimeo player
-* :tada: Scrubbing
-  * matches current Vimeo player's behavior: you can even scrub the progress outside of the player.
-* :tada: Accessibility
+* No size restriction to this player. The controls scale.
+* :tada: **Scrubbing**
+  * matches current Vimeo player's behavior: you can even scrub the progress outside of the player area.
+* :tada: **Accessibility**
   * _spacebar_ controls play/pause, _left/right_ arrow key controls fastforward and rewind.
   * screen readers can read player's _playing/buffered_ progress.
 
@@ -22,11 +23,13 @@ For example:
 <script src="./js/player.js"></script>
 <script>
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
+  /* give size here, the video will be adaptive to the video player's size */
   var width = '640px';
   var height = '320px';
   var myPlayer = player(videoLink, width, height);
-  /* insert the player element into document */
-  document.getElementsByTagName('body')[0].appendChild(myPlayer);
+  /* insert the player's DOM element into document */
+  document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
+  /* You can also access to myPlayer's APIs (see below), e.g. myPlayer.play() */
 </script>
 ```
 
@@ -48,13 +51,24 @@ Open `demo.html` under `public` directory. Or click here: [Demo](http://xiajinyu
 ```javascript
 var player = player(videoLink, width, height);
 ```
+Then you can use following APIs to manipulate the video
+
 * `player.video.seek(time)`
 * `player.video.play`
 * `player.video.pause`
 * `player.video.fastForward(steps)`
 * `player.video.rewind(steps)`
 
-## Implementation
-* ###### Pub/Sub pattern
+## Implementation (Pub/Sub pattern)
+* Easily manage player's internal events.
+* Create custom events for player self.
+* Make events logging easily.
+* Developed under [`pubsub-pattern` branch](https://github.com/jyxia/JXVimeo/tree/pubsub-pattern).
 
-## Discussion
+## Discussions
+* By understanding I should only use plain JavaScript for the development, initially, I tried to use React's idea to implement this player because I am a React developer. It turned out that it is not easy to update the UI's states without React's virtual DOM, so I gave up that idea. Then used `Pub/Sub pattern` for this project.
+* Due to the limited time, I only implemented the required features plus accessibility considerations. For the future work, (or if I can continue work on it), I would like to:
+  * More controls: volume, fullscreen, etc.
+  * Show a duration box on the right when screen is small (e.g. phone's size). I noticed this box exists on the phone's screen. I didn't have to time to implement this time, although my player is *responsive*.
+  * Once there are more UIs or effects, should use sass/less to code css.
+  * Add testing, CI (travis-CI, Jenkins, etc.)
