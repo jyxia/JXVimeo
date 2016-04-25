@@ -1,5 +1,6 @@
 ## JXVimeo Player
 * `player.js` is a UMD module. A library can be universally reused. It is a `jQuery widget`-like development.
+* The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it inside the HTML document (e.g. inside a `div` tag). 
 * Support all features of current Vimeo player (mainly play/pause and the progress bar).
 * Written in [Airbnb JavaScript](https://github.com/airbnb/javascript) style
   * Use `jshint` to setup the rules.
@@ -19,24 +20,25 @@ Meets all requirements, including **accessibility** of the player (supports scre
   * screen readers can read player's _playing/buffered_ progress, _play/pause_ button status, etc.
 
 ## Usage
-In your HTML `<script>` tag, include `player.min.js` or `player.js`, and generate a player element by calling function `player(videoLink, width, height)`. `videoLink` is the video file link, `width` is the width you want to give to the player, `height` is the height you want to give to the player.
+In your HTML `<script>` tag, include `player.min.js` or `player.js`, and generate a player instance by calling function `player(videoLink, width, height)`. `videoLink` is the video file link, `width` is the width you want to give to the player, `height` is the height you want to give to the player.
 
 For example:
 ```javascript
 <script src="./js/player.js"></script>
 <script>
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
-  /* give size here, the video will be adaptive to the video player's size */
+  // give size here, the video will be adaptive to the video player's size
   var width = '640px';
   var height = '320px';
+  // instantiate a player object `myPlayer`
   var myPlayer = player(videoLink, width, height);
-  /* insert the player's DOM element into document */
+  // insert the player's DOM element into document. In fact, insert it anywhere, e.g. `div`
   document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
   /* You can also access to myPlayer's APIs (see below), e.g. myPlayer.play() */
 </script>
 ```
 
-Don't forget to place `style.css` inside `<link rel="stylesheet" >` tag.
+Don't forget to place `style.css` inside `<link rel="stylesheet" >` tag. Looks easy, right? Just give a try.
 
 ## Demo
 Open `demo.html` under `public` directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
@@ -65,7 +67,7 @@ Then you can use following APIs to manipulate the video
 * Make events logging easily.
 * Lightweight.
 * Development is under [`pubsub-pattern` branch](https://github.com/jyxia/JXVimeo/tree/pubsub-pattern).
-  * Used `feature branch` -> `develop` git workflow. 
+  * Used `feature branch` -> `develop` git workflow.
 
 ## Discussions
 * By understanding the requirement, I should only use plain JavaScript for the development. Initially, I tried to use `React`'s idea to implement this player because I am a React developer. It turned out that it is not easy to update the UI's states without React's virtual DOMs, so I gave up that idea. Then I used `Pub/Sub pattern` for this project.
