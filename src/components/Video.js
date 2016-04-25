@@ -4,114 +4,110 @@ var videoElement = require('../elements/VideoElement');
 var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 
-module.exports = (function() {
-  var video = {
+var Video = function(videoLink) {
+  this.videoContainer = videoElement.videoElement(videoLink);
+  this.video = {
     duration: 0,
     currentTime: 0,
     buffered: 0,
-    playing: false
+    playing: false,
+    player: this.videoContainer.firstElementChild
   };
-  var videoContainer;
-
-  var init = function(videoLink) {
-    videoContainer = videoElement.videoElement(videoLink);
-    video.player = videoContainer.firstElementChild;
-    video.player.addEventListener('loadeddata', _loadeddataListener, false);
-    video.player.addEventListener('timeupdate', _timeupdateListener, false);
-    video.player.addEventListener('progress', _progressUpdateListener, false);
-    video.player.addEventListener('playing', _playingListener, false);
-    video.player.addEventListener('pause', _pauseListener, false);
-    return videoContainer;
-  };
+  var that = this;
 
   var _loadeddataListener = function() {
-    video.duration = video.player.duration;
-    var durationData = { duration: video.duration };
+    that.video.duration = that.video.player.duration;
+    var durationData = { duration: that.video.duration };
     var videoReadyEvent = createCustomEvent(playerEvents.videoReady, durationData);
-    videoContainer.dispatchEvent(videoReadyEvent);
+    that.videoContainer.dispatchEvent(videoReadyEvent);
 
-    var bufferData = { buffered: video.player.buffered.end(0) / video.duration * 100 };
+    var bufferData = { buffered: that.video.player.buffered.end(0) / that.video.duration * 100 };
     var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-    videoContainer.dispatchEvent(videoBufferEvent);
+    that.videoContainer.dispatchEvent(videoBufferEvent);
   };
 
   var _timeupdateListener = function() {
-    video.currentTime = video.player.currentTime;
-    var tickData = { currentTime: video.currentTime };
+    that.video.currentTime = that.video.player.currentTime;
+    var tickData = { currentTime: that.video.currentTime };
     var videoTickEvent = createCustomEvent(playerEvents.tick, tickData);
-    videoContainer.dispatchEvent(videoTickEvent);
+    that.videoContainer.dispatchEvent(videoTickEvent);
 
-    var playedProgressData = { progress: video.currentTime };
+    var playedProgressData = { progress: that.video.currentTime };
     var videoPlayedEvent = createCustomEvent(playerEvents.played, playedProgressData);
-    videoContainer.dispatchEvent(videoPlayedEvent);
+    that.videoContainer.dispatchEvent(videoPlayedEvent);
   };
 
   var _progressUpdateListener = function() {
-    var buffered = video.player.buffered;
+    var buffered = that.video.player.buffered;
     if (buffered.length > 0) {
       var bufferedEnd = buffered.end(buffered.length - 1);
       var bufferData = { buffered: bufferedEnd };
       var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-      videoContainer.dispatchEvent(videoBufferEvent);
+      that.videoContainer.dispatchEvent(videoBufferEvent);
     }
   };
 
   var _playingListener = function() {
     var videoPlayingEvent = createCustomEvent(playerEvents.playing);
-    videoContainer.dispatchEvent(videoPlayingEvent);
+    that.videoContainer.dispatchEvent(videoPlayingEvent);
   };
 
   var _pauseListener = function() {
     var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
-    videoContainer.dispatchEvent(vimeoPauseEvent);
+    that.videoContainer.dispatchEvent(vimeoPauseEvent);
   };
 
-  var seek = function(time) {
-    video.player.currentTime = time;
-    video.currentTime = time;
+  var _mouseClickListner = function() {
+    that.togglePlay();
   };
 
-  var togglePlay = function() {
-    if (video.playing) {
-      video.player.pause();
-      video.playing = false;
+  this.videoContainer.addEventListener('click', _mouseClickListner, false);
+  this.video.player.addEventListener('loadeddata', _loadeddataListener, false);
+  this.video.player.addEventListener('timeupdate', _timeupdateListener, false);
+  this.video.player.addEventListener('progress', _progressUpdateListener, false);
+  this.video.player.addEventListener('playing', _playingListener, false);
+  this.video.player.addEventListener('pause', _pauseListener, false);
+};
+
+//
+// Video APIs, other elements change video states from here.
+// Also, if player expose a video object, then these APIs become the player's APIs.
+//
+Video.prototype = {
+  seek: function(time) {
+    this.video.player.currentTime = time;
+    this.video.currentTime = time;
+  },
+
+  togglePlay: function() {
+    if (this.video.playing) {
+      this.video.player.pause();
+      this.video.playing = false;
     } else {
-      video.player.play();
-      video.playing = true;
+      this.video.player.play();
+      this.video.playing = true;
     }
-  };
+  },
 
-  var play = function() {
-    video.player.play();
-    video.playing = true;
-  };
+  play: function() {
+    this.video.player.play();
+    this.video.playing = true;
+  },
 
-  var pause = function() {
-    video.player.pause();
-    video.playing = false;
-  };
+  pause: function() {
+    this.video.player.pause();
+    this.video.playing = false;
+  },
 
-  var fastForward = function(steps) {
-    video.currentTime += steps;
-    video.player.currentTime = video.currentTime;
-  };
+  fastForward: function(steps) {
+    this.video.currentTime += steps;
+    this.video.player.currentTime = this.video.currentTime;
+  },
 
-  var rewind = function(steps) {
-    video.currentTime -= steps;
-    video.player.currentTime = video.currentTime;
-  };
-  //
-  // Video component public APIs
-  // Outside world can change video component states by accessing to these APIs.
-  //
-  return {
-    init: init,
-    togglePlay: togglePlay,
-    play: play,
-    pause: pause,
-    seek: seek,
-    fastForward: fastForward,
-    rewind: rewind
-  };
+  rewind: function(steps) {
+    this.video.currentTime -= steps;
+    this.video.player.currentTime = this.video.currentTime;
+  }
+};
 
-})();
+module.exports = Video;

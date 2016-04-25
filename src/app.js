@@ -1,8 +1,8 @@
 'use strict';
-var playerContainer = require('./components/Player');
+var Player = require('./components/Player');
 
 var app = function(videoLink, width, height) {
-  var player = playerContainer.init(videoLink, width, height);
+  var player = new Player(videoLink, width, height);
   return player;
 };
 
