@@ -1,14 +1,14 @@
 ## JXVimeo Player
 * `player.js` is a UMD module. A library can be universally reused. It is a `jQuery widget`-like development.
-* The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it inside the HTML document (e.g. inside a `div` tag). 
+* The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it to the HTML document (e.g. inside a `<div>` block).
 * Support all features of current Vimeo player (mainly play/pause and the progress bar).
 * Written in [Airbnb JavaScript](https://github.com/airbnb/javascript) style
-  * Use `jshint` to setup the rules.
+  * Use `jshint` to setup the rules. See `.jshinrc`
 
 ## Player features (please test all)
 Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard events).
 * :white_check_mark: UI looks same as Vimeo player.
-* :white_check_mark: Video controls are self contained. Actually, it is a `div` wrapper that wraps everything.
+* :white_check_mark: Video controls are self contained. Actually, the controls element a `div` wrapper that wraps everything.
 * :white_check_mark: Play/pause functions as same as Vimeo player. Clicking video itself toggles play/pause too.
 * :white_check_mark: Video states (Video time, duration, buffered and played) are displayed as same as Vimeo player
 * :white_check_mark: Show/hide effects match Vimeo Player's default effects. e.g. if the mouse stays still on top of the video for a short amount of time, the control bar goes away.
@@ -27,21 +27,26 @@ For example:
 <script src="./js/player.js"></script>
 <script>
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
-  // give size here, the video will be adaptive to the video player's size
+  // Give the player's size here, the video will be adaptive to the video player's size
+  // You can assign any size to the player. The video player has a responsive design.
   var width = '640px';
   var height = '320px';
-  // instantiate a player object `myPlayer`
+  // Get a player object `myPlayer`
   var myPlayer = player(videoLink, width, height);
-  // insert the player's DOM element into document. In fact, insert it anywhere, e.g. `div`
+  // Now, insert myPlayer's DOM element into document's body.
+  // In fact, you can append it anywhere, e.g. a <div> block
   document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
-  /* You can also access to myPlayer's APIs (see below), e.g. myPlayer.play() */
+  /* You can also access to myPlayer's APIs (see below) to manipulate the video, e.g. myPlayer.play() */
 </script>
 ```
 
-Don't forget to place `style.css` inside `<link rel="stylesheet" >` tag. Looks easy, right? Just give a try.
+Lastly, don't forget to place `style.css` inside `<link rel="stylesheet" >` tag.
+
+Just 5 lines of code, not bad, right? Give it a try! Any questions? Contact me.
 
 ## Demo
-Open `demo.html` under `public` directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
+Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/public) directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
+* You can see there is no content inside the HTML `<body>`, `player.js` takes cares of placing the player on your page.   
 
 ## Start development
 * Go to 'VimeoPlayer', run `npm install` to install all dev dependencies.
@@ -63,10 +68,10 @@ Then you can use following APIs to manipulate the video
 
 ## Implementation (Pub/Sub pattern)
 * Easily manage player's internal events.
-* Create custom events for player self.
+* Able to create custom events for the player self.
 * Make events logging easily.
 * Lightweight.
-* Development is under [`pubsub-pattern` branch](https://github.com/jyxia/JXVimeo/tree/pubsub-pattern).
+* Development is under [pubsub-pattern branch](https://github.com/jyxia/JXVimeo/tree/pubsub-pattern).
   * Used `feature branch` -> `develop` git workflow.
 
 ## Discussions
