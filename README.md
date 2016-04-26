@@ -20,15 +20,14 @@ Meets all requirements, including **accessibility** of the player (supports scre
   * screen readers can read player's _playing/buffered_ progress, _play/pause_ button status, etc.
 
 ## Usage
-In your HTML `<script>` tag, include `player.min.js` or `player.js`, and generate a player instance by calling function `player(videoLink, width, height)`. `videoLink` is the video file link, `width` is the width you want to give to the player, `height` is the height you want to give to the player.
+In your HTML `<script>` tag, include `player.min.js` or `player.js` (under [`public/js`](https://github.com/jyxia/JXVimeo/tree/master/public) directory), and generate a player instance by calling function `player(videoLink, width, height)`. `videoLink` is the video file link, `width` is the width you want to give to the player, `height` is the height you want to give to the player.
 
 For example:
 ```javascript
 <script src="./js/player.js"></script>
 <script>
   var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
-  // Give the player's size here, the video will be adaptive to the video player's size
-  // You can assign any size to the player. The video player has a responsive design.
+  // You can actually assign any size to the player. The video player has a responsive design.
   var width = '640px';
   var height = '320px';
   // Get a player object `myPlayer`
@@ -36,13 +35,13 @@ For example:
   // Now, insert myPlayer's DOM element into document's body.
   // In fact, you can append it anywhere, e.g. a <div> block
   document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
-  /* You can also access to myPlayer's APIs (see below) to manipulate the video, e.g. myPlayer.play() */
+  // Now, you can also access to myPlayer's APIs (see below) to manipulate the video, e.g. myPlayer.play()
 </script>
 ```
 
-Lastly, don't forget to place `style.css` inside `<link rel="stylesheet" >` tag.
+Lastly, don't forget to place `style.css`(under [`public/css`](https://github.com/jyxia/JXVimeo/tree/master/public) directory) inside `<link rel="stylesheet" >` tag.
 
-Just 5 lines of code, not bad, right? Give it a try! Any questions? Contact me.
+So, just 5 lines of code, not bad, right? Give it a try! Any questions? Contact me.
 
 ## Demo
 Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/public) directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
@@ -57,19 +56,19 @@ Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/p
 * Chrome v50.0
 * Firefox v45.0.2
 * Safari v9.1
-* Internet Explorer v11.0 
+* Internet Explorer v11.0
 
 ## Player APIs
 ```javascript
-var player = player(videoLink, width, height);
+var myPlayer = player(videoLink, width, height);
 ```
 Then you can use following APIs to manipulate the video
 
-* `player.video.seek(time)`
-* `player.video.play()`
-* `player.video.pause()`
-* `player.video.fastForward(steps)`
-* `player.video.rewind(steps)`
+* `myPlayer.video.seek(time)`
+* `myPlayer.video.play()`
+* `myPlayer.video.pause()`
+* `myPlayer.video.fastForward(steps)`
+* `myPlayer.video.rewind(steps)`
 * to be continued...
 
 ## Implementation (Pub/Sub pattern)
