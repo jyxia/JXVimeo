@@ -34,10 +34,7 @@ var Video = function(videoLink) {
     var durationData = { duration: that.video.duration };
     var videoReadyEvent = createCustomEvent(playerEvents.videoReady, durationData);
     that.videoContainer.dispatchEvent(videoReadyEvent);
-
-    var bufferData = { buffered: that.video.player.buffered.end(0) / that.video.duration * 100 };
-    var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-    that.videoContainer.dispatchEvent(videoBufferEvent);
+    _progressUpdateListener();
   };
 
   var _timeupdateListener = function() {

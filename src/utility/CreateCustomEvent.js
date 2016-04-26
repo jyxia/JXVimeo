@@ -17,7 +17,7 @@ module.exports = function(eventName, data) {
     return new CustomEvent(eventName, {
       'detail': data
     });
-  } else {
-    return new Event(eventName);
   }
+
+  return new Event(eventName);
 };

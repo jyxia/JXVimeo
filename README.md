@@ -53,6 +53,12 @@ Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/p
 * To develop: `npm start`  
 * Run production: `npm run build`
 
+## Tested Browsers
+* Chrome v50.0
+* Firefox v45.0.2
+* Safari v9.1
+* Internet Explorer v11.0 
+
 ## Player APIs
 ```javascript
 var player = player(videoLink, width, height);
