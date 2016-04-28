@@ -5,12 +5,11 @@ var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 
 /**
- * Custom Object: Video
+ * Custom Class: Video
+ * @param{String} videoLink, video source link
  * members:
- * 1. DOM objects:
- * @param { DOM Object } this.videoContainer - contains video element
- * 2. Video state:
- * @param { Object } this.video
+ * 1. DOM objects: this.videoContainer - contains video element
+ * 2. Video state: this.video
  * In order to access to Video object and change states, use prototype's methods (APIs)
  * @see Video.prototype
  */

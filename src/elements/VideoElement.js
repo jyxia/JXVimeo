@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @return { Function } videoElement() create a DOM element (wrapper div) for video
+ * @return{Function} videoElement() create a DOM element (wrapper div) for video
  */
 
 module.exports = (function() {

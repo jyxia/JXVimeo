@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @return { Function } createPlayButton() create a DOM element (div) for play button
+ * @return{Function} createPlayButton() create a DOM element (div) for play button
  */
 
 module.exports = (function() {

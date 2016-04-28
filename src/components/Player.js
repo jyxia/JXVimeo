@@ -9,7 +9,10 @@ var createCustomEvent = require('../utility/CreateCustomEvent');
 var utility = require('../utility/Utility');
 
 /**
- * Custom Object: Player
+ * Custom Class: Player
+ * @param{String} videoLink: video link
+ * @param{String} width: player's width
+ * @param{String} height: player's height
  * members:
  * 1. DOM objects: this.playerContainer - contains all elements
  * 2. Video object: this.video, it opens Player's APIs.
@@ -21,6 +24,7 @@ var Player = function(videoLink, width, height) {
   var randomId = utility.generateRandomId(10);
   container.className = 'player-container';
   container.setAttribute('id', randomId);
+  container.setAttribute('tabindex', 0);
 
   container.style.width = width;
   container.style.height = height;
@@ -50,28 +54,13 @@ var Player = function(videoLink, width, height) {
   var _resetMouseStopTimer = function() {
     if (mouseStopTimer) {
       window.clearTimeout(mouseStopTimer);
-      utility.removeClass(that.playerControls, 'hidden');
+    }
+    if (utility.hasClass(that.playerControls, 'invisible')) {
+      utility.removeClass(that.playerControls, 'invisible');
     }
     mouseStopTimer = window.setTimeout(function() {
-      utility.addClass(that.playerControls, 'hidden');
-    }, 2000);
-  };
-
-  var _mouseLeaveListner = function() {
-    if (!isMouseDown) {
-      utility.addClass(that.playerControls, 'hidden');
-    }
-    that.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
-  };
-
-  var _controlsMouseLeaveListener = function() {
-    that.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
-  };
-
-  var _controlsMouseEnterListener = function() {
-    utility.removeClass(that.playerControls, 'hidden');
-    if (mouseStopTimer) window.clearTimeout(mouseStopTimer);
-    that.playerContainer.removeEventListener('mousemove', _mousemoveListner, false);
+      utility.addClass(that.playerControls, 'invisible');
+    }, 3000);
   };
 
   var _mousemoveListner = function() {
@@ -84,6 +73,23 @@ var Player = function(videoLink, width, height) {
 
   var _mouseupListener = function() {
     isMouseDown = false;
+  };
+
+  var _mouseLeaveListner = function() {
+    if (!isMouseDown) {
+      utility.addClass(that.playerControls, 'invisible');
+    }
+    that.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
+  };
+
+  var _controlsMouseLeaveListener = function() {
+    that.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
+  };
+
+  var _controlsMouseEnterListener = function() {
+    utility.removeClass(that.playerControls, 'invisible');
+    if (mouseStopTimer) window.clearTimeout(mouseStopTimer);
+    that.playerContainer.removeEventListener('mousemove', _mousemoveListner, false);
   };
 
   var _keydownListener = function(event) {
@@ -119,16 +125,15 @@ var Player = function(videoLink, width, height) {
     }
   };
 
-  document.documentElement.addEventListener('keydown', _keydownListener, false);
-  document.documentElement.addEventListener('keyup', _keyupListener, false);
-  document.documentElement.addEventListener('mousedown', _mousedownListener, false);
-  document.documentElement.addEventListener('mouseup', _mouseupListener, false);
+  this.playerContainer.addEventListener('keydown', _keydownListener, false);
+  this.playerContainer.addEventListener('keyup', _keyupListener, false);
+  this.playerContainer.addEventListener('mousedown', _mousedownListener, false);
+  this.playerContainer.addEventListener('mouseup', _mouseupListener, false);
 
   this.playerContainer.addEventListener('mousemove', _mousemoveListner, false);
   this.playerContainer.addEventListener('mouseleave', _mouseLeaveListner, false);
   this.playerControls.addEventListener('mouseenter', _controlsMouseEnterListener, false);
   this.playerControls.addEventListener('mouseleave', _controlsMouseLeaveListener, false);
-
 };
 
 module.exports = Player;

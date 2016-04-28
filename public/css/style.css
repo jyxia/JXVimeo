@@ -8,7 +8,7 @@
 }
 
 .player-container .invisible {
-  opacity: 0;
+  opacity: 0!important;
 }
 
 .player-container .hidden {
@@ -41,7 +41,7 @@
   -webkit-align-items: flex-end;
       -ms-flex-align: end;
           align-items: flex-end;
-  transition: opacity 1s ease;
+  transition: opacity .5s ease;
 }
 
 .player-container > .controls:hover {
@@ -199,7 +199,7 @@
 }
 
 /* disable outline (boarder) hightlight if the element is selected */
-.player-container *:focus {
+.player-container *, .player-container:focus {
   outline-width: 0;
 }
 

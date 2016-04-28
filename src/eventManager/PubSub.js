@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Pub/Sub model definition 
+ * Pub/Sub model definition
  */
 
 module.exports = (function() {

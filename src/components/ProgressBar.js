@@ -7,9 +7,9 @@ var createCustomEvent = require('../utility/CreateCustomEvent');
 
 /**
  * Custom Object: Progress
- * members - DOM objects:
- * @param { DOM Object } this.progressBar
- * @param { Object } this.progressBarChildren - a collection of child DOMs of progressBar
+ * members - DOM obj
+ * - this.progressBar,
+ * - this.progressBarChildren - a collection of child DOMs of progressBar
  *
  * In order to access to this object, use prototype's methods (APIs)
  * @see Progress.prototype

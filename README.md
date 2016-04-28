@@ -84,7 +84,7 @@ Then you can use following APIs to manipulate the video
 * You can see my development process by looking at my commits.
 * Due to the limited time, I only implemented the required features plus accessibility considerations. For the future work, (or if I can continue working on it), I would like to:
   * Add more controls: volume, fullscreen, etc.
-  * Show a duration box on the right when screen is small (e.g. phone's size). I noticed this box exists on the phone's screen. I didn't have time to implement this time, although my player is actually *responsive*.
+  * Show a duration box on the right when screen is small (e.g. phone's size). I noticed this box exists on the phone's screen. I didn't have time to implement this time, although my player is actually *adaptive* to the container's size.
   * Use sass/less to code css. Once there are more UIs or effects, plain css becomes less manageable.
   * Add testing, CI (travis-CI, Jenkins, etc.)
   * ...

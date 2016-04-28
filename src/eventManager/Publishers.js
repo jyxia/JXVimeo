@@ -10,10 +10,10 @@ var eventManager = require('./PubSub');
 
 module.exports = (function() {
   /**
-  * @param playButton (DOM Object): playpause button
-  * @param progress (DOM Object): progress bar
-  * @param video (DOM Object): vidoe element
-  * @param playerContainer (DOM Object): a container element contains all elements
+  * @param{Object} playButton (DOM Object): playpause button
+  * @param{Object} progress (DOM Object): progress bar
+  * @param{Object} video (DOM Object): vidoe element
+  * @param{Object} playerContainer (DOM Object): a container element contains all elements
   *
   */
   var init = function(playButton, progress, video, playerContainer) {

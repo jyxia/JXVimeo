@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @return { Function } progressWrapper() create a DOM element (wrapper div) for progress bar
+ * @return{Function} progressWrapper() create a DOM element (wrapper div) for progress bar
  */
 
 module.exports = (function() {
@@ -9,7 +9,7 @@ module.exports = (function() {
     var bufferedDiv = document.createElement('div');
     bufferedDiv.className = 'buffered';
     bufferedDiv.setAttribute('role', 'progressbar');
-    bufferedDiv.setAttribute('aria-label', 'buffed');
+    bufferedDiv.setAttribute('aria-label', 'buffered');
     bufferedDiv.setAttribute('aria-valuemin', 0);
     return bufferedDiv;
   };

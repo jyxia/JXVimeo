@@ -39,7 +39,7 @@ module.exports = {
   },
   plugins:
     dev ? [new ExtractTextPlugin('../css/style.css')] : [
-      new ExtractTextPlugin('../css/style.css'),
+      new ExtractTextPlugin('../css/style.min.css'),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
