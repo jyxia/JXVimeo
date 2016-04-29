@@ -137,4 +137,9 @@ var Player = function(videoLink, width, height) {
   playerControls.addEventListener('mouseleave', _controlsMouseLeaveListener, false);
 };
 
+Player.prototype.receivePlaying = function() {
+  var playingEvent = createCustomEvent('playing');
+  this.playerContainer.dispatchEvent(playingEvent);
+};
+
 module.exports = Player;

@@ -1,5 +1,5 @@
 ## JXVimeo Player
-* `player.js` is a UMD lib. A library can be universally reused. It is a `jQuery widget`-like development, but only use vanilla JavaScript code.
+* `player.js` is a UMD library which be universally reused. It is a `jQuery widget`-like development, but only use vanilla JavaScript code.
 * The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it to the HTML document (e.g. inside a `<div>` block). `player` can be recreated multiple times event on the same page.
 * Support all features of current Vimeo player (mainly play/pause and the progress bar).
 * Written in [Airbnb JavaScript](https://github.com/airbnb/javascript) style
@@ -15,7 +15,7 @@ Meets all requirements, including **accessibility** of the player (supports scre
 * :white_check_mark: No size restriction to this player. The controls scale.
 * :white_check_mark::tada: **Scrubbing**
   * matches current Vimeo player's behaviors: you can even scrub the progress outside of the player area.
-* :white_check_mark::tada: **Accessibility**
+* :white_check_mark: **Accessibility**
   * __spacebar__ controls play/pause, __left/right__ arrow key controls fastforward and rewind, etc.
   * screen readers can read player's _playing/buffered_ progress, _play/pause_ button status, etc.
 
@@ -44,8 +44,12 @@ Lastly, don't forget to place `style.css`(under [`public/css`](https://github.co
 So, just 5 lines of code, not bad, right? Give it a try! Any questions? Contact me.
 
 ## Demo
-Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/public) directory. Or click here: [Demo](http://xiajinyue.info/JXVimeo/demo.html).
-* You can see there is no content inside the HTML `<body>`, `player.js` takes cares of placing the player on your page.   
+Open `demo.html` and `demo2.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/public) directory. Or click here:
+* [Demo1](http://xiajinyue.info/JXVimeo/demo.html).
+* [Demo2](http://xiajinyue.info/JXVimeo/demo2.html).
+  * [Demo2](http://xiajinyue.info/JXVimeo/demo2.html) illustrates the example when the page has two players (you can have more than two). Like [Vimeo](https://vimeo.com), when there are multiple videos existing on the same page, if one video is playing, the rest videos should be paused on the page. Demo2 exactly implemented this feature. :sparkles::tada:
+
+In `demo.html` You can see there is no content inside the HTML `<body>`, `player.js` takes cares of placing the player on your page.   
 
 ## Start development
 * Go to 'VimeoPlayer', run `npm install` to install all dev dependencies.
@@ -69,7 +73,12 @@ Then you can use following APIs to manipulate the video
 * `myPlayer.video.pause()`
 * `myPlayer.video.fastForward(steps)`
 * `myPlayer.video.rewind(steps)`
+* `myPlayer.video.isPlaying()`
 * to be continued...
+
+You can also listen the player's event, e.g.
+
+* `playing` - `myPlayer.playerContainer.addEventListener('playing', callback)`
 
 ## Implementation (Pub/Sub pattern)
 * Easily manage player's internal events.

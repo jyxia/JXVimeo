@@ -125,6 +125,10 @@ Video.prototype = {
   rewind: function(steps) {
     this.video.currentTime -= steps;
     this.video.player.currentTime = this.video.currentTime;
+  },
+
+  isPlaying: function() {
+    return this.video.playing;
   }
 };
 

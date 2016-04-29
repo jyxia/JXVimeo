@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vimeo Player Exercise</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <h3> 1. first video </h3>
+  <div id="player1"></div>
+  <h3> 2. Second video with a different size </h3>
+  <div id="player2"></div>
+  <script src="./js/player.js"></script>
+  <script>
+    // initialize first video player
+    var videoLink = 'https://player.vimeo.com/external/76979871.hd.mp4?s=700bf8f30f8f8114cc372e94c4156aaf&profile_id=113';
+    var width = '480px';
+    var height = '270px';
+    var myPlayer1 = new Player(videoLink, width, height);
+    document.getElementById('player1').appendChild(myPlayer1.playerContainer);
+    // initialize second video player
+    var width2 = '640px';
+    var height2 = '360px';
+    var myPlayer2 = new Player(videoLink, width2, height2);
+    document.getElementById('player2').appendChild(myPlayer2.playerContainer);
+    // use player's APIs to pause other videos,
+    // Two example APIs, player.video.pause(), player.video.isPlaying()
+    myPlayer1.playerContainer.addEventListener('playing', function() {
+      if (myPlayer2.video.isPlaying()) myPlayer2.video.pause();
+    }, false);
+    myPlayer2.playerContainer.addEventListener('playing', function() {
+      if (myPlayer1.video.isPlaying()) myPlayer1.video.pause();
+    }, false);
+  </script>
+</body>
+</html>

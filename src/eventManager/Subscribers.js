@@ -10,7 +10,7 @@ var playerEvents = require('./PlayerEvents');
  * @param{Video} video
  */
 
-module.exports = function(eventManager, playButton, progress, video) {
+module.exports = function(eventManager, playButton, progress, video, player) {
   // video component subscribers
   eventManager.subscribe(playerEvents.play, function() {
     video.play();
@@ -52,5 +52,9 @@ module.exports = function(eventManager, playButton, progress, video) {
   });
   eventManager.subscribe(playerEvents.pause, function() {
     playButton.togglePlay(playerEvents.pause);
+  });
+  // player component subscribers
+  eventManager.subscribe(playerEvents.playing, function() {
+    player.receivePlaying(playerEvents.playing);
   });
 };

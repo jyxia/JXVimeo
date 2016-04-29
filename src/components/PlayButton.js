@@ -20,14 +20,14 @@ var PlayButton = function() {
 
   var _buttonClickListener = function(event) {
     event.stopPropagation();
-    if (_this.state.playing) {
+    if (_this.playing) {
       var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
       _this.playbuttonElem.dispatchEvent(vimeoPauseEvent);
-      _this.state.playing = false;
+      _this.playing = false;
     } else {
       var vimeoPlayEvent = createCustomEvent(playerEvents.play);
       _this.playbuttonElem.dispatchEvent(vimeoPlayEvent);
-      _this.state.playing = true;
+      _this.playing = true;
     }
   };
 
@@ -35,25 +35,23 @@ var PlayButton = function() {
 };
 
 PlayButton.prototype = {
-  state: {
-    'playing': false
-  },
+  playing: false,
 
   togglePlay: function(eventName) {
     var playbutton = this.playbuttonElem;
-    var state = this.state;
     var playIcon = playbutton.children[0];
     var pauseIcon = playbutton.children[1];
+
     if (eventName === playerEvents.pause) {
       playIcon.style.display = 'block';
       pauseIcon.style.display = 'none';
-      state.playing = false;
+      this.playing = false;
       playbutton.setAttribute('aria-label', 'play');
       playbutton.setAttribute('title', 'play');
     } else {
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
-      state.playing = true;
+      this.playing = true;
       playbutton.setAttribute('aria-label', 'pause');
       playbutton.setAttribute('title', 'pause');
     }

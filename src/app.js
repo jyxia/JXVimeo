@@ -19,10 +19,11 @@ var app = function(videoLink, width, height) {
   var progress = player.progress;
   var video = player.video;
   this.playerContainer = player.playerContainer;
+  this.video = video;
   // register pubs/subs here.
   var eventManager = new EventManager();
   registerPubs(eventManager, playButton.playbuttonElem, progress.progressContainer,video.videoContainer, this.playerContainer);
-  registerSubs(eventManager, playButton, progress, video);
+  registerSubs(eventManager, playButton, progress, video, player);
 };
 
 module.exports = app;
