@@ -1,9 +1,9 @@
 ## JXVimeo Player
-* `player.js` is a UMD module. A library can be universally reused. It is a `jQuery widget`-like development.
-* The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it to the HTML document (e.g. inside a `<div>` block).
+* `player.js` is a UMD lib. A library can be universally reused. It is a `jQuery widget`-like development, but only use vanilla JavaScript code.
+* The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it to the HTML document (e.g. inside a `<div>` block). `player` can be recreated multiple times event on the same page.
 * Support all features of current Vimeo player (mainly play/pause and the progress bar).
 * Written in [Airbnb JavaScript](https://github.com/airbnb/javascript) style
-  * Use `jshint` to setup the rules. See `.jshinrc`
+  * Use `jshint` to setup the rules. See `.jshinrc`. Official Airbnb [.jshintrc](https://github.com/airbnb/javascript/blob/master/linters/.jshintrc).
 
 ## Player features (please test all)
 Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard events).
@@ -11,7 +11,7 @@ Meets all requirements, including **accessibility** of the player (supports scre
 * :white_check_mark: Video controls are self contained. Actually, the controls element a `div` wrapper that wraps everything.
 * :white_check_mark: Play/pause functions as same as Vimeo player. Clicking video itself toggles play/pause too.
 * :white_check_mark: Video states (Video time, duration, buffered and played) are displayed as same as Vimeo player
-* :white_check_mark: Show/hide effects match Vimeo Player's default effects. e.g. if the mouse stays still on top of the video for a short amount of time, the control bar goes away.
+* :white_check_mark: Show/hide effects match Vimeo Player's default effects. e.g. if the mouse stays still on top of the video for a short amount of time, the control bar fades away.
 * :white_check_mark: No size restriction to this player. The controls scale.
 * :white_check_mark::tada: **Scrubbing**
   * matches current Vimeo player's behaviors: you can even scrub the progress outside of the player area.
@@ -31,7 +31,7 @@ For example:
   var width = '640px';
   var height = '320px';
   // Get a player object `myPlayer`
-  var myPlayer = player(videoLink, width, height);
+  var myPlayer = new Player(videoLink, width, height);
   // Now, insert myPlayer's DOM element into document's body.
   // In fact, you can append it anywhere, e.g. a <div> block
   document.getElementsByTagName('body')[0].appendChild(myPlayer.playerContainer);
@@ -60,7 +60,7 @@ Open `demo.html` under [`public`](https://github.com/jyxia/JXVimeo/tree/master/p
 
 ## Player APIs
 ```javascript
-var myPlayer = player(videoLink, width, height);
+var myPlayer = new Player(videoLink, width, height);
 ```
 Then you can use following APIs to manipulate the video
 
@@ -74,7 +74,7 @@ Then you can use following APIs to manipulate the video
 ## Implementation (Pub/Sub pattern)
 * Easily manage player's internal events.
 * Able to create custom events for the player self.
-* Make events logging easily.
+* Make events **logging** easily.
 * Lightweight.
 * Development is under [pubsub-pattern branch](https://github.com/jyxia/JXVimeo/tree/pubsub-pattern).
   * Used `feature branch` -> `develop` git workflow.

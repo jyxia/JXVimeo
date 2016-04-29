@@ -2,7 +2,8 @@
 
 /**
 * All Viemo Player custom event names are here
-* @return { Object } contains all names
+*
+* @return {Object} contains all custom event names
 */
 
 module.exports = {

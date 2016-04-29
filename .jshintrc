@@ -6,6 +6,7 @@
   "undef": true,
   "indent": 2,
   "quotmark": "single",
+  "latedef": true,
   "emitErrors": false,
   "failOnHint": false,
   "node": true,

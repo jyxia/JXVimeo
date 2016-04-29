@@ -73,7 +73,7 @@ module.exports = {
 
   generateRandomId: function(idLength) {
     var id = '';
-    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (var i = 1; i <= idLength; i++) {
         var randPos = Math.floor(Math.random() * charSet.length);
         id += charSet[randPos];

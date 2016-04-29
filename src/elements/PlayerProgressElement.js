@@ -23,14 +23,11 @@ module.exports = (function() {
     return playedDiv;
   };
 
-  var hoverTimebox = function() {
-    var hoverTimeboxDiv = document.createElement('div');
-    hoverTimeboxDiv.setAttribute('role', 'presentation');
-    hoverTimeboxDiv.setAttribute('aria-hidden', 'true');
-    hoverTimeboxDiv.className = 'hover-timebox';
-    var timePopDiv = timePop('00:00');
-    hoverTimeboxDiv.appendChild(timePopDiv);
-    return hoverTimeboxDiv;
+  var timePop = function(time) {
+    var timePopDiv = document.createElement('div');
+    timePopDiv.className = 'time-pop';
+    timePopDiv.innerHTML = time;
+    return timePopDiv;
   };
 
   var timebox = function() {
@@ -43,11 +40,14 @@ module.exports = (function() {
     return timeboxDiv;
   };
 
-  var timePop = function(time) {
-    var timePopDiv = document.createElement('div');
-    timePopDiv.className = 'time-pop';
-    timePopDiv.innerHTML = time;
-    return timePopDiv;
+  var hoverTimebox = function() {
+    var hoverTimeboxDiv = document.createElement('div');
+    hoverTimeboxDiv.setAttribute('role', 'presentation');
+    hoverTimeboxDiv.setAttribute('aria-hidden', 'true');
+    hoverTimeboxDiv.className = 'hover-timebox';
+    var timePopDiv = timePop('00:00');
+    hoverTimeboxDiv.appendChild(timePopDiv);
+    return hoverTimeboxDiv;
   };
 
   var createProgressWrapper = function() {

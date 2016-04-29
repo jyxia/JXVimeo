@@ -5,10 +5,11 @@ var playerEvents = require('../eventManager/PlayerEvents');
 var createCustomEvent = require('../utility/CreateCustomEvent');
 
 /**
- * Custom Class: Video
+ * Custom class: Video
  * @param{String} videoLink, video source link
+ *
  * members:
- * 1. DOM objects: this.videoContainer - contains video element
+ * 1. HTML element: this.videoContainer - contains video element
  * 2. Video state: this.video
  * In order to access to Video object and change states, use prototype's methods (APIs)
  * @see Video.prototype
@@ -23,52 +24,56 @@ var Video = function(videoLink) {
     playing: false,
     player: this.videoContainer.firstElementChild
   };
-  var that = this;
+  var _this = this;
 
   /**
   * private methods - mainly for event listeners
   */
-  var _loadeddataListener = function() {
-    that.video.duration = that.video.player.duration;
-    var durationData = { duration: that.video.duration };
-    var videoReadyEvent = createCustomEvent(playerEvents.videoReady, durationData);
-    that.videoContainer.dispatchEvent(videoReadyEvent);
-    _progressUpdateListener();
-  };
-
-  var _timeupdateListener = function() {
-    that.video.currentTime = that.video.player.currentTime;
-    var tickData = { currentTime: that.video.currentTime };
-    var videoTickEvent = createCustomEvent(playerEvents.tick, tickData);
-    that.videoContainer.dispatchEvent(videoTickEvent);
-
-    var playedProgressData = { progress: that.video.currentTime };
-    var videoPlayedEvent = createCustomEvent(playerEvents.played, playedProgressData);
-    that.videoContainer.dispatchEvent(videoPlayedEvent);
-  };
-
-  var _progressUpdateListener = function() {
-    var buffered = that.video.player.buffered;
+  var _updateProgress = function() {
+    var buffered =  _this.video.player.buffered;
     if (buffered.length > 0) {
       var bufferedEnd = buffered.end(buffered.length - 1);
       var bufferData = { buffered: bufferedEnd };
       var videoBufferEvent = createCustomEvent(playerEvents.buffered, bufferData);
-      that.videoContainer.dispatchEvent(videoBufferEvent);
+      _this.videoContainer.dispatchEvent(videoBufferEvent);
     }
+  };
+
+  var _loadeddataListener = function() {
+    _this.video.duration = _this.video.player.duration;
+    var durationData = { duration:  _this.video.duration };
+    var videoReadyEvent = createCustomEvent(playerEvents.videoReady, durationData);
+    _this.videoContainer.dispatchEvent(videoReadyEvent);
+    _updateProgress();
+  };
+
+  var _timeupdateListener = function() {
+    _this.video.currentTime =  _this.video.player.currentTime;
+    var tickData = { currentTime: _this.video.currentTime };
+    var videoTickEvent = createCustomEvent(playerEvents.tick, tickData);
+    _this.videoContainer.dispatchEvent(videoTickEvent);
+
+    var playedProgressData = { progress:  _this.video.currentTime };
+    var videoPlayedEvent = createCustomEvent(playerEvents.played, playedProgressData);
+    _this.videoContainer.dispatchEvent(videoPlayedEvent);
+  };
+
+  var _progressUpdateListener = function() {
+    _updateProgress();
   };
 
   var _playingListener = function() {
     var videoPlayingEvent = createCustomEvent(playerEvents.playing);
-    that.videoContainer.dispatchEvent(videoPlayingEvent);
+    _this.videoContainer.dispatchEvent(videoPlayingEvent);
   };
 
   var _pauseListener = function() {
     var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
-    that.videoContainer.dispatchEvent(vimeoPauseEvent);
+    _this.videoContainer.dispatchEvent(vimeoPauseEvent);
   };
 
   var _mouseClickListner = function() {
-    that.togglePlay();
+    _this.togglePlay();
   };
 
   /**

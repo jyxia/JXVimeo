@@ -5,9 +5,10 @@ var createCustomEvent = require('../utility/CreateCustomEvent');
 var playerEvents = require('../eventManager/PlayerEvents');
 
 /**
- * Custom Object: PlayButton
+ * Custom class: PlayButton
+ *
  * members:
- * 1. DOM objects: playbuttonElem - contains button element
+ * 1. HTML element: playbuttonElem - contains button element
  * 2. Playing state: this.states
  * In order to access to PlayButton object, use prototype's methods (APIs)
  * @see PlayButton.prototype
@@ -15,18 +16,18 @@ var playerEvents = require('../eventManager/PlayerEvents');
 
 var PlayButton = function() {
   this.playbuttonElem = playButtonElement.createPlayButton();
-  var that = this;
+  var _this = this;
 
   var _buttonClickListener = function(event) {
     event.stopPropagation();
-    if (that.state.playing) {
+    if (_this.state.playing) {
       var vimeoPauseEvent = createCustomEvent(playerEvents.pause);
-      that.playbuttonElem.dispatchEvent(vimeoPauseEvent);
-      that.state.playing = false;
+      _this.playbuttonElem.dispatchEvent(vimeoPauseEvent);
+      _this.state.playing = false;
     } else {
       var vimeoPlayEvent = createCustomEvent(playerEvents.play);
-      that.playbuttonElem.dispatchEvent(vimeoPlayEvent);
-      that.state.playing = true;
+      _this.playbuttonElem.dispatchEvent(vimeoPlayEvent);
+      _this.state.playing = true;
     }
   };
 
