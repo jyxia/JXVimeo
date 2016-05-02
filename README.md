@@ -15,7 +15,7 @@ Meets all requirements, including **accessibility** of the player (supports scre
 * :white_check_mark: No size restriction to this player. The controls scale.
 * :white_check_mark::tada: **Scrubbing**
   * matches current Vimeo player's behaviors: you can even scrub the progress outside of the player area.
-* :white_check_mark: **Accessibility**
+* :white_check_mark::tada: **Accessibility**
   * __spacebar__ controls play/pause, __left/right__ arrow key controls fastforward and rewind, etc.
   * screen readers can read player's _playing/buffered_ progress, _play/pause_ button status, etc.
 

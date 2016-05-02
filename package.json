@@ -1,16 +1,16 @@
 {
   "name": "vimeoplayer",
   "version": "0.0.1",
-  "description": "\"Vimeo Player Exercise\"",
+  "description": "\"JX Vimeo Player\"",
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=development webpack --config ./webpack.config.js --watch --progress --colors",
     "build": "NODE_ENV=production webpack --config ./webpack.config.js --progress --profile --colors"
   },
   "keywords": [
+    "JX",
     "Vimeo",
-    "Player",
-    "Exercise"
+    "Player"
   ],
   "author": "Jinyue Xia",
   "license": "MIT",
