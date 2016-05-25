@@ -30,6 +30,7 @@ module.exports = function(eventManager, playButton, progress, video, player) {
   eventManager.subscribe(playerEvents.rewind, function(data) {
     video.rewind(data.steps);
   });
+
   // progress component subscribers
   eventManager.subscribe(playerEvents.videoReady, function(data) {
     progress.updateDuration(data);
@@ -46,6 +47,7 @@ module.exports = function(eventManager, playButton, progress, video, player) {
   eventManager.subscribe(playerEvents.tick, function(data) {
     progress.updateTick(data);
   });
+
   // playButton component subscribers
   eventManager.subscribe(playerEvents.playing, function() {
     playButton.togglePlay(playerEvents.playing);
@@ -53,6 +55,7 @@ module.exports = function(eventManager, playButton, progress, video, player) {
   eventManager.subscribe(playerEvents.pause, function() {
     playButton.togglePlay(playerEvents.pause);
   });
+  
   // player component subscribers
   eventManager.subscribe(playerEvents.playing, function() {
     player.receivePlaying(playerEvents.playing);

@@ -19,10 +19,12 @@ module.exports = function(eventManager, playButton, progress, video, playerConta
   playButton.addEventListener(playerEvents.pause, function() {
     eventManager.publish(playerEvents.pause);
   }, false);
+
   // progess element publishers
   progress.addEventListener(playerEvents.seek, function(data) {
     eventManager.publish(playerEvents.seek, data.detail);
   }, false);
+
   // video element publishers
   video.addEventListener(playerEvents.videoReady, function(data) {
     eventManager.publish(playerEvents.videoReady, data.detail);
@@ -42,6 +44,7 @@ module.exports = function(eventManager, playButton, progress, video, playerConta
   video.addEventListener(playerEvents.pause, function() {
     eventManager.publish(playerEvents.pause);
   }, false);
+  
   // playerContainer element publishers
   playerContainer.addEventListener(playerEvents.togglePlay, function() {
     eventManager.publish(playerEvents.togglePlay);
