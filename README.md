@@ -1,12 +1,13 @@
-## JXVimeo Player
+## JX Vimeo Player
 * `player.js` is a UMD library which can be universally reused. It is a `jQuery widget`-like development, but only use vanilla JavaScript code.
 * The `player` instance is an self-contained HTML component (widget). All you need to do is to create a `player` instance and insert it to the HTML document (e.g. inside a `<div>` block). `player` can be recreated multiple times event on the same page.
 * Support all features of current Vimeo video player (mainly play/pause and the progress bar).
 * Written in [Airbnb JavaScript](https://github.com/airbnb/javascript) style
   * Use `jshint` to setup the rules. See `.jshinrc`. Official Airbnb [.jshintrc](https://github.com/airbnb/javascript/blob/master/linters/.jshintrc).
 
-## Player features (please test all)
-Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard events).
+## Player features
+Try to make a duplicate of Vimeo video player. Meets all requirements, including **accessibility** of the player (supports screen reader and keyboard events).
+* :white_check_mark: Vanilla JavaScript, super lightweight.
 * :white_check_mark: UI looks same as Vimeo video player.
 * :white_check_mark: Video controls are components in the player. Actually, the controls element is a `div` wrapper that wraps everything.
 * :white_check_mark: Play/pause functions as same as Vimeo video player. Clicking video itself toggles play/pause too.
